@@ -32,7 +32,7 @@ export default function WhyChooseUs() {
       <Wrapper>
         <div className="flex flex-col mb-16 text-center items-center">
           <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading">
-            Why WebAura
+            Why Aurevia
           </span>
           <h2 className="ds-section-title text-white font-heading max-w-2xl">
             Built for brands that demand perfection.

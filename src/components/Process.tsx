@@ -51,7 +51,7 @@ export default function Process() {
         </div>
 
         {/* Steps */}
-        <div ref={wrapRef} className="flex flex-col gap-4">
+        <div ref={wrapRef} className="flex flex-col gap-10">
           {STEPS.map((step, i) => (
             <motion.div
               key={step.n}
@@ -70,8 +70,8 @@ export default function Process() {
               {/* Left sidebar */}
               <div className="lg:col-span-3 flex flex-col justify-between p-8 lg:p-10" style={{ borderRight: "1px solid var(--border)" }}>
                 <div className="flex flex-col gap-2">
-                  <span className="t-mono text-[10px]" style={{ color: "var(--text-muted)" }}>PHASE</span>
-                  <span className="text-5xl font-black" style={{ fontFamily: "var(--font-heading)", color: "rgba(255,255,255,0.08)" }}>
+                  <span className="t-mono text-[10px] pl-1" style={{ color: "var(--text-muted)" }}>PHASE</span>
+                  <span className="text-5xl font-black pl-1" style={{ fontFamily: "var(--font-heading)", color: "rgba(0,0,0,0.06)" }}>
                     {step.n}
                   </span>
                 </div>

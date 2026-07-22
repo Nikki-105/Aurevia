@@ -65,7 +65,7 @@ export default function AboutSection() {
               className="t-label"
               style={{ color: "var(--cyan)" }}
             >
-              About WebAura
+              About Aurevia
             </motion.p>
 
             <motion.h2
@@ -106,7 +106,7 @@ export default function AboutSection() {
               <p className="t-subtitle font-semibold leading-snug" style={{ color: "var(--text-primary)", fontFamily: "var(--font-heading)" }}>
                 "We don't just build websites. We build revenue-generating digital assets."
               </p>
-              <p className="t-xs mt-3" style={{ color: "var(--text-muted)" }}>— WebAura Founding Principle</p>
+              <p className="t-xs mt-3" style={{ color: "var(--text-muted)" }}>— Aurevia Founding Principle</p>
             </motion.blockquote>
 
             <motion.p

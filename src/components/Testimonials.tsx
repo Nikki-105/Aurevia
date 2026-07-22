@@ -3,7 +3,7 @@
 import Wrapper from "./Wrapper";
 
 const TESTIMONIALS_ROW1 = [
-  { name: "Marcus Theil", role: "CEO, NexaFinance",    text: "WebAura delivered a platform that handles $4.2B daily volume without a single incident. Extraordinary engineers." },
+  { name: "Marcus Theil", role: "CEO, NexaFinance",    text: "Aurevia delivered a platform that handles $4.2B daily volume without a single incident. Extraordinary engineers." },
   { name: "Sofia Andres",  role: "CPO, AuraMed",        text: "The team shipped in 6 weeks what our in-house team estimated 6 months for. Quality was 11/10." },
   { name: "Jamal Owusu",   role: "Founder, SkyRoute",   text: "Their 3D supply chain globe alone justified the entire project cost. Clients are genuinely stunned." },
   { name: "Priya Nair",    role: "CTO, Fluenta",        text: "The most technically sophisticated engineering partner we've ever worked with. They think at a different level." },
@@ -13,7 +13,7 @@ const TESTIMONIALS_ROW1 = [
 const TESTIMONIALS_ROW2 = [
   { name: "Alice Moreau",  role: "CMO, Lumire Brand",   text: "They redesigned our entire brand experience. Revenue from the website tripled in 90 days." },
   { name: "Dev Patel",     role: "Founder, Traxr",      text: "Fastest, most professional team I've ever hired. Discovery to deploy in 7 weeks, 100/100 Lighthouse." },
-  { name: "Elena Fischer", role: "COO, Merka Health",   text: "WebAura's AI chatbot reduced our support volume by 68% in the first month. Unbelievable ROI." },
+  { name: "Elena Fischer", role: "COO, Merka Health",   text: "Aurevia's AI chatbot reduced our support volume by 68% in the first month. Unbelievable ROI." },
   { name: "Tom Cahill",    role: "CEO, BoldStack",      text: "Every Awwwards site we showed them as inspiration — they matched the quality and then exceeded it." },
   { name: "Yuki Tanaka",   role: "Design Lead, Velta",  text: "The motion design and micro-interactions are something I've never seen from a dev agency. Art-level work." },
 ];
@@ -21,7 +21,7 @@ const TESTIMONIALS_ROW2 = [
 function Card({ name, role, text }: { name: string; role: string; text: string }) {
   return (
     <div
-      className="shrink-0 w-80 flex flex-col gap-4 rounded-[var(--r-lg)] p-6 mx-3"
+      className="shrink-0 w-80 lg:w-96 flex flex-col items-center text-center gap-5 rounded-[var(--r-lg)] p-8"
       style={{
         background: "var(--surface-card)",
         border: "1px solid var(--border)",
@@ -59,8 +59,8 @@ export default function Testimonials() {
       </Wrapper>
 
       {/* Row 1 — forward */}
-      <div className="relative w-full overflow-hidden mb-4">
-        <div className="flex marquee-fwd">
+      <div className="relative w-full overflow-hidden mb-6">
+        <div className="flex gap-6 marquee-fwd" style={{ width: "max-content" }}>
           {[...TESTIMONIALS_ROW1, ...TESTIMONIALS_ROW1].map((t, i) => (
             <Card key={i} {...t} />
           ))}
@@ -69,7 +69,7 @@ export default function Testimonials() {
 
       {/* Row 2 — reverse */}
       <div className="relative w-full overflow-hidden">
-        <div className="flex marquee-rev">
+        <div className="flex gap-6 marquee-rev" style={{ width: "max-content" }}>
           {[...TESTIMONIALS_ROW2, ...TESTIMONIALS_ROW2].map((t, i) => (
             <Card key={i} {...t} />
           ))}

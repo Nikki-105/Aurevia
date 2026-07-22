@@ -14,6 +14,8 @@ import PricingSection from "@/components/PricingSection";
 import FAQSection from "@/components/FAQSection";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import GlobalWebGL from "@/components/GlobalWebGL";
+import TeamSection from "@/components/TeamSection";
 
 export default function Page() {
   const [loaded, setLoaded] = useState(false);
@@ -22,7 +24,8 @@ export default function Page() {
     <>
       <CinematicLoader onComplete={() => setLoaded(true)} />
       {loaded && (
-        <>
+        <div className="relative w-full">
+          <GlobalWebGL />
           <Hero />
           <ClientBar />
           <AboutSection />
@@ -31,11 +34,12 @@ export default function Page() {
           <Process />
           <TechStack />
           <Testimonials />
+          <TeamSection />
           <PricingSection />
           <FAQSection />
           <Contact />
           <Footer />
-        </>
+        </div>
       )}
     </>
   );

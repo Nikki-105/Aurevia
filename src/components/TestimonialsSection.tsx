@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
 
 const reviews = [
-  { quote: "WebAura transformed our SaaS platform. Our conversion jumped 340% within 30 days of launch.", author: "Marcus Vance", role: "CEO, Aura Finance" },
+  { quote: "Aurevia transformed our SaaS platform. Our conversion jumped 340% within 30 days of launch.", author: "Marcus Vance", role: "CEO, Aura Finance" },
   { quote: "The 3D WebGL animations and 100/100 Lighthouse score made our luxury brand look unstoppable.", author: "Elena Rostova", role: "Creative Director, Luxe Atelier" },
   { quote: "Their autonomous AI chatbots handle 90% of our customer intake effortlessly.", author: "David Chen", role: "CTO, Vanguard AI" },
   { quote: "Pixel perfection, mathematically exact design system, and flawless Next.js 15 architecture.", author: "Sarah Jenkins", role: "VP Product, Horizon Group" },

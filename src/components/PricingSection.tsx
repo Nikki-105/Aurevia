@@ -87,7 +87,7 @@ export default function PricingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className={plan.featured ? "card-featured" : "card"}
+              className={`${plan.featured ? "card-featured" : "card"} flex flex-col items-center text-center`}
             >
               {/* Popular badge */}
               {plan.featured && (
@@ -110,7 +110,7 @@ export default function PricingSection() {
               </div>
 
               {/* Price */}
-              <div className="pb-8 mb-8" style={{ borderBottom: "1px solid var(--border)" }}>
+              <div className="pb-8 mb-8 flex flex-col items-center w-full" style={{ borderBottom: "1px solid var(--border)" }}>
                 <p
                   className="font-black tracking-tight leading-none"
                   style={{

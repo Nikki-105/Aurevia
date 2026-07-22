@@ -79,7 +79,7 @@ export default function CinematicLoader({ onComplete }: { onComplete: () => void
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              WEBAURA
+              AUREVIA
             </motion.p>
 
             {/* Progress bar */}

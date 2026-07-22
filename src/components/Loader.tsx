@@ -69,7 +69,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
         >
-          <span className="text-xl font-bold tracking-[0.2em] uppercase font-heading">WebAura</span>
+          <span className="text-xl font-bold tracking-[0.2em] uppercase font-heading">Aurevia</span>
           <span className="text-[10px] font-medium tracking-widest text-slate-400 uppercase mt-2">Loading Experience</span>
         </motion.div>
 

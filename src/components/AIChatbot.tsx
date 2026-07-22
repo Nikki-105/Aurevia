@@ -21,7 +21,7 @@ function getReply(msg: string): string {
 export default function AIChatbot() {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState([
-    { from: "ai", text: "Hi — I'm the WebAura AI. I can tell you about our services, pricing, or timelines. What can I help with?" },
+    { from: "ai", text: "Hi — I'm the Aurevia AI. I can tell you about our services, pricing, or timelines. What can I help with?" },
   ]);
   const [input, setInput] = useState("");
 
@@ -51,7 +51,7 @@ export default function AIChatbot() {
             <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--cyan)", boxShadow: "0 0 6px var(--cyan)" }} />
-                <span className="t-sm font-semibold" style={{ color: "var(--text-primary)" }}>WebAura AI</span>
+                <span className="t-sm font-semibold" style={{ color: "var(--text-primary)" }}>Aurevia AI</span>
               </div>
               <button onClick={() => setOpen(false)} className="t-sm" style={{ color: "var(--text-tertiary)" }}>✕</button>
             </div>

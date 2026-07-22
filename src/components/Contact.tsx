@@ -53,7 +53,7 @@ export default function Contact() {
             {/* Contact details */}
             <div className="flex flex-col gap-5 pt-4" style={{ borderTop: "1px solid var(--border)" }}>
               {[
-                { label: "Email", value: "hello@webaura.studio" },
+                { label: "Email", value: "hello@aurevia.studio" },
                 { label: "Response Time", value: "Within 2 business hours" },
                 { label: "Timezone", value: "Available globally" },
               ].map((d) => (
@@ -125,7 +125,7 @@ export default function Contact() {
                 {/* Services */}
                 <div className="flex flex-col gap-3">
                   <label className="t-label" style={{ color: "var(--text-muted)" }}>Services Needed</label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {SERVICES_OPTS.map((s) => {
                       const active = selected.includes(s);
                       return (
@@ -133,10 +133,10 @@ export default function Contact() {
                           key={s}
                           type="button"
                           onClick={() => toggle(s)}
-                          className="px-3.5 py-2 rounded-full t-label text-[9px] transition-all"
+                          className="px-4 py-2.5 rounded-full t-label text-[10px] transition-all"
                           style={{
-                            background:   active ? "var(--cyan-dim)" : "rgba(255,255,255,0.04)",
-                            border:       `1px solid ${active ? "rgba(0,229,255,0.5)" : "var(--border)"}`,
+                            background:   active ? "var(--cyan-dim)" : "rgba(0,0,0,0.04)",
+                            border:       `1px solid ${active ? "rgba(0,183,204,0.5)" : "var(--border)"}`,
                             color:        active ? "var(--cyan)" : "var(--text-tertiary)",
                           }}
                         >

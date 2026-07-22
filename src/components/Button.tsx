@@ -44,9 +44,11 @@ export default function Button({
 
   if (href) {
     return (
-      <a
+      <motion.a
         href={href}
         className={`${varClass} ${className}`}
+        whileHover={{ scale: 1.03, y: -2 }}
+        whileTap={{ scale: 0.95 }}
         onClick={(e) => {
           const id = href.replace("#", "");
           const el = document.getElementById(id);
@@ -54,7 +56,7 @@ export default function Button({
         }}
       >
         {inner}
-      </a>
+      </motion.a>
     );
   }
 
@@ -64,7 +66,8 @@ export default function Button({
       onClick={onClick}
       disabled={disabled || isLoading}
       className={`${varClass} ${className} disabled:opacity-40 disabled:pointer-events-none`}
-      whileTap={{ scale: 0.96 }}
+      whileHover={{ scale: 1.03, y: -2 }}
+      whileTap={{ scale: 0.95 }}
     >
       {inner}
     </motion.button>

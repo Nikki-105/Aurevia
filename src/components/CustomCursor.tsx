@@ -33,7 +33,7 @@ export default function CustomCursor() {
     <>
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full"
+        className="fixed top-0 left-0 pointer-events-none z-[999999] rounded-full"
         animate={{
           x: pos.x - (isPointer ? 22 : 14),
           y: pos.y - (isPointer ? 22 : 14),
@@ -44,12 +44,12 @@ export default function CustomCursor() {
           backgroundColor: isPointer ? "rgba(0,229,255,0.08)" : "rgba(0,82,255,0.06)",
         }}
         style={{ border: "1px solid" }}
-        transition={{ type: "spring", stiffness: 350, damping: 26, mass: 0.08 }}
+        transition={{ type: "spring", stiffness: 1000, damping: 35, mass: 0.02 }}
       />
 
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 w-[5px] h-[5px] pointer-events-none z-[9999] rounded-full"
+        className="fixed top-0 left-0 w-[5px] h-[5px] pointer-events-none z-[999999] rounded-full"
         animate={{
           x: pos.x - 2.5,
           y: pos.y - 2.5,
@@ -57,7 +57,7 @@ export default function CustomCursor() {
           backgroundColor: isPointer ? "var(--cyan)" : "#00aaff",
         }}
         style={{ boxShadow: "0 0 8px var(--cyan)" }}
-        transition={{ type: "spring", stiffness: 700, damping: 32, mass: 0.05 }}
+        transition={{ type: "spring", stiffness: 3000, damping: 50, mass: 0.001 }}
       />
     </>
   );

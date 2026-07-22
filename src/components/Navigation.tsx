@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
 import MagneticButton from "./MagneticButton";
@@ -17,10 +17,21 @@ const LINKS = [
 export default function Navigation() {
   const { setCursorType } = useCursor();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 50);
+    const handler = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 50);
+      if (currentY > 200 && currentY > lastY.current) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastY.current = currentY;
+    };
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -34,10 +45,10 @@ export default function Navigation() {
     <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={{ y: hidden ? -100 : 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         className="fixed top-0 left-0 right-0 z-50"
-        style={{ padding: scrolled ? "10px 0" : "18px 0", transition: "padding 300ms ease" }}
+        style={{ padding: scrolled ? "10px 0" : "18px 0", transition: "padding 300ms ease, transform 300ms ease" }}
       >
         <div className="container">
           <div
@@ -46,7 +57,7 @@ export default function Navigation() {
               height: "72px",
               padding: "0 28px",
               borderRadius: scrolled ? "var(--r-full)" : "var(--r-xl)",
-              background: scrolled ? "rgba(6,6,10,0.88)" : "transparent",
+              background: scrolled ? "rgba(255,255,255,0.88)" : "transparent",
               backdropFilter: scrolled ? "blur(24px)" : "none",
               border: scrolled ? "1px solid var(--border)" : "1px solid transparent",
               boxShadow: scrolled ? "var(--shadow-md)" : "none",
@@ -61,7 +72,7 @@ export default function Navigation() {
               onMouseEnter={() => setCursorType("pointer")}
               onMouseLeave={() => setCursorType("default")}
             >
-              WebAura<span style={{ color: "var(--cyan)" }}>.</span>
+              Aurevia<span style={{ color: "var(--cyan)" }}>.</span>
             </button>
 
             {/* ─── Links (centered) ─── */}

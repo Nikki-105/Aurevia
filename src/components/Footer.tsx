@@ -18,7 +18,7 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#030303", borderTop: "1px solid var(--border)" }}>
+    <footer style={{ background: "var(--surface-0)", borderTop: "1px solid var(--border)" }}>
       {/* CTA band */}
       <div style={{ borderBottom: "1px solid var(--border)" }}>
         <Wrapper>
@@ -43,7 +43,7 @@ export default function Footer() {
                 }}> extraordinary?</span>
               </h2>
               <p className="t-body" style={{ color: "var(--text-tertiary)" }}>
-                Join 127+ companies who trusted WebAura to engineer their digital future.
+                Join 127+ companies who trusted Aurevia to engineer their digital future.
               </p>
             </div>
             <MagneticButton>
@@ -67,8 +67,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-16" style={{ borderBottom: "1px solid var(--border)" }}>
           {/* Brand col */}
           <div className="col-span-2 md:col-span-1 flex flex-col gap-5">
-            <div className="text-xl font-black" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-              WebAura<span style={{ color: "var(--cyan)" }}>.</span>
+            <div className="text-xl font-black" style={{ fontFamily: "var(--font-heading)" }}>
+              <span style={{
+                background: "linear-gradient(90deg, #00d2ff 0%, #0066ff 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}>Aurevia</span>
             </div>
             <p className="t-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
               Engineering digital experiences that convert. Awwwards-grade quality, enterprise-grade engineering.
@@ -81,7 +86,7 @@ export default function Footer() {
                   aria-label={s.name}
                   className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
                   style={{
-                    background: "rgba(255,255,255,0.05)",
+                    background: "rgba(0,0,0,0.03)",
                     border: "1px solid var(--border)",
                     color: "var(--text-tertiary)",
                   }}
@@ -126,7 +131,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8">
           <p className="t-xs" style={{ color: "var(--text-muted)" }}>
-            © {new Date().getFullYear()} WebAura Studio. All rights reserved.
+            © {new Date().getFullYear()} Aurevia Studio. All rights reserved.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--cyan)" }} />
@@ -136,18 +141,16 @@ export default function Footer() {
 
         {/* Giant wordmark */}
         <div
-          className="text-center pb-8 font-black tracking-tighter select-none pointer-events-none overflow-hidden"
+          className="text-center font-black tracking-tighter w-full overflow-hidden text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#0066ff]"
           style={{
             fontSize: "clamp(60px, 16vw, 220px)",
             fontFamily: "var(--font-heading)",
             lineHeight: 0.85,
-            background: "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            WebkitMaskImage: "linear-gradient(180deg, black 0%, transparent 100%)",
+            maskImage: "linear-gradient(180deg, black 0%, transparent 100%)",
           }}
         >
-          WEBAURA
+          AUREVIA
         </div>
       </Wrapper>
     </footer>

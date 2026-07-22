@@ -10,7 +10,7 @@ const FAQS = [
   { q: "What does 'full IP transfer' mean?", a: "You own 100% of the code, design assets, and all deliverables from day one of final payment. No licensing, no lock-in, no recurring fees to us." },
   { q: "Do you offer ongoing support after launch?", a: "All plans include post-launch support (30–90 days depending on plan). We also offer monthly retainers for teams who want a dedicated engineering partner long-term." },
   { q: "Can you integrate with our existing systems?", a: "Yes. We regularly integrate with Salesforce, HubSpot, Notion, Stripe, Intercom, custom APIs, and legacy databases. We assess complexity during discovery and price accordingly." },
-  { q: "What makes WebAura different from other agencies?", a: "We don't have account managers who don't code. Every client gets access to senior engineers and a design director. We build fewer projects per year and give each one full attention." },
+  { q: "What makes Aurevia different from other agencies?", a: "We don't have account managers who don't code. Every client gets access to senior engineers and a design director. We build fewer projects per year and give each one full attention." },
 ];
 
 export default function FAQSection() {
@@ -48,19 +48,21 @@ export default function FAQSection() {
             {FAQS.map((faq, i) => (
               <div key={i} style={{ borderBottom: "1px solid var(--border)" }}>
                 <button
-                  className="w-full flex items-center justify-between py-6 text-left gap-6"
+                  className="group w-full flex items-center justify-between py-6 text-left gap-6"
                   onClick={() => setOpen(open === i ? null : i)}
                 >
                   <span
-                    className="t-body font-medium transition-colors"
+                    className="t-body font-medium transition-all duration-300 group-hover:translate-x-2 group-hover:text-[var(--text-primary)]"
                     style={{ color: open === i ? "var(--text-primary)" : "var(--text-secondary)" }}
                   >
                     {faq.q}
                   </span>
                   <motion.div
                     animate={{ rotate: open === i ? 45 : 0 }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.22 }}
-                    className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center"
+                    className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center transition-colors"
                     style={{
                       border: "1px solid",
                       borderColor: open === i ? "var(--cyan)" : "var(--border)",

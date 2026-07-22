@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 import AmbientBackground from "@/components/AmbientBackground";
 import CommandPalette from "@/components/CommandPalette";
 import AIChatbot from "@/components/AIChatbot";
-import FloatingDock from "@/components/FloatingDock";
+import AdminHide from "@/components/AdminHide";
 import { CursorProvider } from "@/context/CursorContext";
 
 const inter = Inter({
@@ -33,17 +33,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "WebAura — Engineering Digital Experiences That Convert",
-    template: "%s | WebAura",
+    default: "Aurevia — Engineering Digital Experiences That Convert",
+    template: "%s | Aurevia",
   },
   description:
-    "WebAura is an elite digital engineering studio. We build ultra-performance Next.js 15 platforms, 3D WebGL experiences, autonomous AI agents, and enterprise-grade SaaS products.",
+    "Aurevia is an elite digital engineering studio. We build ultra-performance Next.js 15 platforms, 3D WebGL experiences, autonomous AI agents, and enterprise-grade SaaS products.",
   keywords: [
-    "WebAura", "Digital Agency", "Next.js 15", "WebGL", "Three.js",
-    "AI Automation", "SaaS Development", "UI/UX Design", "Enterprise Software",
+    "Aurevia", "Digital Agency", "Next.js 15", "WebGL", "Three.js",
+    "Framer Motion", "AI Chatbots", "Enterprise SaaS"
   ],
   openGraph: {
-    title: "WebAura — Engineering Digital Experiences That Convert",
+    title: "Aurevia — Engineering Digital Experiences That Convert",
     description: "Ultra-premium Next.js 15, WebGL & AI engineering studio.",
     type: "website",
   },
@@ -58,14 +58,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-screen antialiased overflow-x-hidden" style={{ background: "var(--surface-0)", color: "var(--text-primary)" }}>
         <div className="noise" aria-hidden="true" />
-        <AmbientBackground />
+        <AdminHide>
+          <AmbientBackground />
+        </AdminHide>
         <CursorProvider>
           <SmoothScroll>
             <CustomCursor />
-            <Navigation />
-            <CommandPalette />
-            <AIChatbot />
-            <FloatingDock />
+            <AdminHide>
+              <Navigation />
+              <CommandPalette />
+              <AIChatbot />
+            </AdminHide>
             <main>{children}</main>
           </SmoothScroll>
         </CursorProvider>

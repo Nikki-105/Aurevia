@@ -29,7 +29,26 @@ export function initDb() {
       email TEXT NOT NULL,
       company TEXT,
       message TEXT,
+      tags TEXT DEFAULT '',
       status TEXT DEFAULT 'new',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS lead_activity (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      lead_id INTEGER NOT NULL,
+      action TEXT NOT NULL,
+      details TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(lead_id) REFERENCES leads(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS team (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      role TEXT NOT NULL,
+      bio TEXT,
+      image_url TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);

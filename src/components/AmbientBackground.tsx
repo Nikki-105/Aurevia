@@ -15,7 +15,6 @@ export default function AmbientBackground() {
           width: "70vw", height: "70vw",
           top: "-20%", left: "-10%",
           background: "radial-gradient(circle, var(--aurora-1) 0%, transparent 70%)",
-          filter: "blur(120px)",
         }}
         animate={{ x: [0, 30, -20, 0], y: [0, -40, 20, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
@@ -28,7 +27,6 @@ export default function AmbientBackground() {
           width: "60vw", height: "60vw",
           top: "30%", right: "-15%",
           background: "radial-gradient(circle, var(--aurora-2) 0%, transparent 70%)",
-          filter: "blur(140px)",
         }}
         animate={{ x: [0, -40, 30, 0], y: [0, 50, -30, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
@@ -41,7 +39,6 @@ export default function AmbientBackground() {
           width: "55vw", height: "55vw",
           bottom: "-15%", left: "20%",
           background: "radial-gradient(circle, var(--aurora-3) 0%, transparent 70%)",
-          filter: "blur(110px)",
         }}
         animate={{ x: [0, 25, -35, 0], y: [0, -30, 40, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
