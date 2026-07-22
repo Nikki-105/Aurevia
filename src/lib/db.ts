@@ -1,60 +1,13 @@
-import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import Database from 'better-sqlite3';
 import path from 'path';
 
-let dbInstance: Database | null = null;
+// Define the path to the database file in the root of the project
+const dbPath = path.resolve(process.cwd(), 'aurevia-cms.db');
 
-export async function getDb(): Promise<Database> {
-  if (dbInstance) return dbInstance;
+// Initialize the database (creates it if it doesn't exist)
+const db = new Database(dbPath, { verbose: console.log });
 
-  const dbPath = path.join(process.cwd(), 'agency.db');
-  
-  dbInstance = await open({
-    filename: dbPath,
-    driver: sqlite3.Database
-  });
+// Enable WAL mode for better performance with concurrent reads/writes
+db.pragma('journal_mode = WAL');
 
-  await initDb(dbInstance);
-  return dbInstance;
-}
-
-async function initDb(db: Database) {
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS projects (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      client TEXT NOT NULL,
-      title TEXT NOT NULL,
-      category TEXT NOT NULL,
-      color TEXT,
-      image TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS services (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL,
-      icon TEXT,
-      color TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS testimonials (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      quote TEXT NOT NULL,
-      author TEXT NOT NULL,
-      role TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS leads (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      company TEXT,
-      message TEXT,
-      status TEXT DEFAULT 'new',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
-}
+export default db;

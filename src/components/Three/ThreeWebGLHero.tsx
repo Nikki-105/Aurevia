@@ -25,7 +25,7 @@ function AbstractShape() {
       <Sphere
         ref={meshRef}
         args={[2, 64, 64]}
-        position={[0, 0, 0]}
+        position={[2, 0, -2]} // Positioned to right and slightly back
       >
         <MeshDistortMaterial
           color="#ffffff"
@@ -45,16 +45,16 @@ function AbstractShape() {
 
 export default function ThreeWebGLHero() {
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden" style={{ pointerEvents: "auto" }}>
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         dpr={[1, 2]}
       >
         <ambientLight intensity={0.5} />
-        {/* Subtle gradients from lighting */}
-        <directionalLight position={[10, 10, 5]} intensity={1.5} color="#e0f2fe" /> {/* Light blue */}
-        <directionalLight position={[-10, -10, -5]} intensity={1} color="#f3e8ff" /> {/* Light purple */}
+        {/* Subtle gradients from lighting: blue and purple */}
+        <directionalLight position={[10, 10, 5]} intensity={1.5} color="#e0f2fe" /> 
+        <directionalLight position={[-10, -10, -5]} intensity={1} color="#f3e8ff" /> 
         <directionalLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
         
         <AbstractShape />

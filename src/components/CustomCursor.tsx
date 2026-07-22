@@ -1,52 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export default function CustomCursor() {
-  const [mounted, setMounted] = useState(false);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [isPointer, setIsPointer] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // eslint-disable-next-line
-    setMounted(true);
-    
-    const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
-    const onOver = (e: MouseEvent) => {
-      const el = e.target as HTMLElement;
-      setIsPointer(
-        window.getComputedStyle(el).cursor === "pointer" ||
-        el.tagName.toLowerCase() === "a" ||
-        el.tagName.toLowerCase() === "button"
-      );
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX - 16);
+      cursorY.set(e.clientY - 16);
+      if (!isVisible) setIsVisible(true);
     };
-
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseover", onOver);
     
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
-    };
-  }, []);
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, [cursorX, cursorY, isVisible]);
 
-  if (!mounted) return null;
+  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+    return null; // Disable on touch devices
+  }
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-8 h-8 rounded-full border border-slate-400 pointer-events-none z-[100] mix-blend-difference hidden md:flex items-center justify-center"
-      animate={{
-        x: pos.x - 16,
-        y: pos.y - 16,
-        scale: isPointer ? 1.5 : 1,
-        backgroundColor: isPointer ? "rgba(255,255,255,1)" : "rgba(255,255,255,0)",
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 150,
-        damping: 15,
-        mass: 0.1,
+      className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-accent pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+      style={{
+        x: cursorXSpring,
+        y: cursorYSpring,
+        opacity: isVisible ? 1 : 0,
       }}
     />
   );
