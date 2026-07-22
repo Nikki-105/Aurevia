@@ -1,153 +1,139 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Wrapper from "./Wrapper";
-import { useCursor } from "@/context/CursorContext";
 
-const projects = [
+const PROJECTS = [
   {
-    title: "Aura Finance Platform",
-    category: "Fintech & WebGL",
-    image: "/portfolio-1.png",
-    chips: ["Next.js 15", "Three.js", "Stripe API"],
-    stat: "+340% Conversion",
-    details: "Re-engineered the global wealth management platform with custom 3D telemetry visualization, resulting in a 340% increase in qualified lead conversion."
+    n: "01",
+    title: "NexaFinance",
+    category: "FinTech · SaaS Platform",
+    year: "2024",
+    description: "A real-time institutional trading platform processing $4.2B daily. Built with Next.js 15, WebSockets, and high-frequency data visualization dashboards.",
+    result: "+340% user engagement · 99.99% uptime",
+    color: "#00e5ff",
+    bg: "linear-gradient(135deg, #0a1628 0%, #0c0d1a 100%)",
   },
   {
-    title: "Luxe Atelier Digital Flagship",
-    category: "Luxury E-Commerce",
-    image: "/portfolio-2.png",
-    chips: ["React 19", "GSAP Motion", "TailwindCSS"],
-    stat: "100/100 Lighthouse",
-    details: "Created a high-fashion editorial shopping experience with sub-second page loads and zero layout shifts for a Parisian luxury house."
+    n: "02",
+    title: "AuraMed",
+    category: "HealthTech · AI Platform",
+    year: "2024",
+    description: "AI-powered diagnostic workflow system adopted by 12 hospital networks. LangChain + GPT-4o integration with HIPAA-compliant infrastructure and real-time reporting.",
+    result: "+62% diagnostic speed · 28 countries",
+    color: "#aa00ff",
+    bg: "linear-gradient(135deg, #120a1e 0%, #0c0d1a 100%)",
   },
   {
-    title: "Vanguard Autonomous AI",
-    category: "Enterprise AI Agent",
-    image: "/portfolio-3.png",
-    chips: ["AI Agents", "Python", "TypeScript"],
-    stat: "90% Cost Reduction",
-    details: "Built an autonomous customer service and voice agent pipeline processing 100,000+ monthly inquiries without human intervention."
-  }
+    n: "03",
+    title: "SkyRoute",
+    category: "Logistics · Enterprise SaaS",
+    year: "2025",
+    description: "Global supply chain visibility platform with live 3D globe tracking, predictive delay alerts, and automated carrier negotiations through AI agents.",
+    result: "€22M ARR · 41% cost reduction",
+    color: "#0052ff",
+    bg: "linear-gradient(135deg, #0a1020 0%, #0c0d1a 100%)",
+  },
 ];
 
 export default function Portfolio() {
-  const { setCursorType, setCursorLabel } = useCursor();
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
   return (
-    <section id="portfolio" className="relative w-full ds-section z-10 bg-[#0b0b0b] text-white border-t border-white/10">
+    <section id="portfolio" className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>
       <Wrapper>
-        
-        <div className="flex flex-col mb-20 text-left">
-          <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading flex items-center gap-4">
-            <div className="w-8 h-[1px] bg-[#00F0FF]" />
-            Selected Case Studies
-          </span>
-          <h2 className="ds-section-title text-white font-heading max-w-3xl">
-            Immersive digital products built for scale.
-          </h2>
+        {/* Header */}
+        <div className="flex items-end justify-between mb-16 gap-8 flex-wrap">
+          <div className="flex flex-col gap-4 max-w-lg">
+            <p className="t-label" style={{ color: "var(--cyan)" }}>Selected Work</p>
+            <h2 className="t-section" style={{ color: "var(--text-primary)" }}>
+              Where strategy meets craft.
+            </h2>
+          </div>
+          <p className="t-body max-w-xs" style={{ color: "var(--text-tertiary)" }}>
+            Case studies from brands who trusted us to engineer their most critical digital assets.
+          </p>
         </div>
 
-        <div className="flex flex-col gap-24">
-          {projects.map((p) => (
+        {/* Projects */}
+        <div ref={containerRef} className="flex flex-col gap-6">
+          {PROJECTS.map((p, i) => (
             <motion.div
-              key={p.title}
+              key={p.n}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="group relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 cursor-pointer"
-              onClick={() => setSelectedProject(p)}
-              onMouseEnter={() => {
-                setCursorType("pointer");
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative rounded-[var(--r-xl)] overflow-hidden cursor-pointer"
+              style={{
+                background: p.bg,
+                border: "1px solid var(--border)",
+                transition: "border-color 350ms ease, box-shadow 350ms ease",
               }}
-              onMouseLeave={() => {
-                setCursorType("default");
-              }}
+              whileHover={{ borderColor: p.color }}
             >
-              <img
-                src={p.image}
-                alt={p.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 min-h-[280px]">
 
-              <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                  <div>
-                    <span className="text-xs font-mono text-[#00F0FF] uppercase tracking-widest mb-2 block">
-                      {p.category}
+                {/* Left — Project Info */}
+                <div className="lg:col-span-7 flex flex-col justify-between p-10 lg:p-14">
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="t-mono" style={{ color: "var(--text-muted)", fontSize: "10px" }}>{p.n}</span>
+                    <span className="t-label text-[9px] px-2.5 py-1 rounded-full" style={{ background: "rgba(255,255,255,0.06)", color: "var(--text-tertiary)", border: "1px solid var(--border)" }}>
+                      {p.year}
                     </span>
-                    <h3 className="text-3xl md:text-5xl font-bold font-heading text-white mb-4">
-                      {p.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {p.chips.map((chip) => (
-                        <span key={chip} className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/10 text-slate-300 border border-white/10">
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-bold font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-4 py-2 rounded-full border border-[#00F0FF]/30">
-                      {p.stat}
-                    </span>
-                    <button className="bg-white text-black font-bold px-6 py-3 rounded-full text-xs hover:bg-[#00F0FF] transition-colors">
+                  <div className="flex flex-col gap-4">
+                    <p className="t-label" style={{ color: p.color }}>{p.category}</p>
+                    <h3 className="text-4xl lg:text-5xl font-black tracking-tight" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+                      {p.title}
+                    </h3>
+                    <p className="t-body leading-relaxed max-w-sm" style={{ color: "var(--text-secondary)" }}>
+                      {p.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right — Result + CTA */}
+                <div className="lg:col-span-5 flex flex-col justify-end p-10 lg:p-14" style={{ borderLeft: "1px solid var(--border)" }}>
+                  <div className="flex flex-col gap-6">
+                    <div>
+                      <p className="t-label mb-2" style={{ color: "var(--text-muted)" }}>Outcome</p>
+                      <p className="t-body-lg font-semibold" style={{ color: p.color }}>
+                        {p.result}
+                      </p>
+                    </div>
+
+                    <motion.div
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 4 }}
+                      className="inline-flex items-center gap-2 t-sm font-semibold"
+                      style={{ color: "var(--text-primary)" }}
+                    >
                       View Case Study
-                    </button>
+                      <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </motion.div>
                   </div>
                 </div>
               </div>
+
+              {/* Hover glow */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[var(--r-xl)]"
+                style={{ boxShadow: `inset 0 0 80px ${p.color}11` }}
+              />
             </motion.div>
           ))}
         </div>
-
       </Wrapper>
-
-      {/* Case Study Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-2xl bg-[#0f0f0f] border border-white/20 rounded-3xl p-8 z-10 text-white shadow-2xl"
-            >
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-white"
-              >
-                ✕
-              </button>
-              <span className="text-xs font-mono text-[#00F0FF] uppercase tracking-widest">{selectedProject.category}</span>
-              <h3 className="text-3xl font-bold font-heading text-white my-3">{selectedProject.title}</h3>
-              <p className="text-slate-300 leading-relaxed text-sm mb-6">{selectedProject.details}</p>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-6 flex justify-between items-center">
-                <span className="text-xs text-slate-400 font-mono">Impact Metric:</span>
-                <span className="text-lg font-bold text-[#00F0FF]">{selectedProject.stat}</span>
-              </div>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="w-full bg-[#0066FF] text-white font-bold py-3.5 rounded-full text-sm hover:bg-[#00F0FF] hover:text-black transition-colors"
-              >
-                Close Case Study
-              </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

@@ -3,83 +3,88 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const REPLIES: Record<string, string> = {
+  pricing: "Our projects start from $25,000 for bespoke web platforms. Enterprise packages start at $50,000. Custom scopes available.",
+  services: "We offer 16 core capabilities: Web Dev, AI Automation, SaaS, Mobile, UI/UX, Branding, SEO, CRM, ERP, Dashboards, and more.",
+  timeline: "Most projects take 4–8 weeks from discovery to 100/100 Lighthouse launch.",
+  ai: "We build autonomous AI Chatbots, Voice Agents, LLM pipelines, and automated business workflows.",
+};
+
+function getReply(msg: string): string {
+  const lower = msg.toLowerCase();
+  for (const [key, reply] of Object.entries(REPLIES)) {
+    if (lower.includes(key)) return reply;
+  }
+  return "Great question. Our team specializes in high-performance digital engineering, AI automation, and WebGL experiences. Would you like to schedule a strategy call?";
+}
+
 export default function AIChatbot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: "ai", text: "Welcome to WebAura. I am your AI project consultant. How can we help engineer your digital experience today?" },
+  const [open, setOpen] = useState(false);
+  const [msgs, setMsgs] = useState([
+    { from: "ai", text: "Hi — I'm the WebAura AI. I can tell you about our services, pricing, or timelines. What can I help with?" },
   ]);
   const [input, setInput] = useState("");
 
-  const handleSend = () => {
+  const send = () => {
     if (!input.trim()) return;
-    const userMsg = input;
-    setMessages((prev) => [...prev, { sender: "user", text: userMsg }]);
+    const userMsg = input.trim();
+    setMsgs((p) => [...p, { from: "user", text: userMsg }]);
     setInput("");
-
     setTimeout(() => {
-      let reply = "Our team specializes in high-performance web development, AI automation, and custom SaaS platforms. Would you like to schedule a strategy call?";
-      if (userMsg.toLowerCase().includes("pricing") || userMsg.toLowerCase().includes("cost")) {
-        reply = "Our projects start at $50,000 for bespoke web platforms. We also offer custom AI automation and SaaS scope calculators!";
-      } else if (userMsg.toLowerCase().includes("services") || userMsg.toLowerCase().includes("ai")) {
-        reply = "We offer 16 core capabilities including AI Chatbots, Voice Agents, WebGL, Next.js 15 architectures, and Enterprise ERPs.";
-      }
-      setMessages((prev) => [...prev, { sender: "ai", text: reply }]);
-    }, 600);
+      setMsgs((p) => [...p, { from: "ai", text: getReply(userMsg) }]);
+    }, 500);
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9990]">
+    <div className="fixed bottom-6 right-6 z-[9985] flex flex-col items-end gap-3">
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="w-80 md:w-96 h-96 mb-4 bg-[#0b0b0b] border border-white/15 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="w-80 md:w-96 glass rounded-[var(--r-xl)] overflow-hidden shadow-[var(--shadow-lg)]"
+            style={{ border: "1px solid var(--border-strong)" }}
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-[#00F0FF] animate-pulse" />
-                <span className="text-sm font-bold text-white">WebAura AI Assistant</span>
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.03)" }}>
+              <div className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--cyan)", boxShadow: "0 0 6px var(--cyan)" }} />
+                <span className="t-sm font-semibold" style={{ color: "var(--text-primary)" }}>WebAura AI</span>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                ✕
-              </button>
+              <button onClick={() => setOpen(false)} className="t-sm" style={{ color: "var(--text-tertiary)" }}>✕</button>
             </div>
 
-            {/* Chat Body */}
-            <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
-              {messages.map((m, idx) => (
-                <div
-                  key={idx}
-                  className={`max-w-[80%] p-3 rounded-xl text-xs leading-relaxed ${
-                    m.sender === "user"
-                      ? "bg-[#0066FF] text-white self-end"
-                      : "bg-white/10 text-slate-200 self-start"
-                  }`}
+            {/* Messages */}
+            <div className="flex flex-col gap-3 p-4 max-h-64 overflow-y-auto">
+              {msgs.map((m, i) => (
+                <div key={i} className={`t-sm leading-relaxed rounded-[var(--r-md)] px-4 py-3 max-w-[85%] ${m.from === "user" ? "self-end" : "self-start"}`}
+                  style={{
+                    background:   m.from === "user" ? "var(--blue)" : "rgba(255,255,255,0.06)",
+                    color:        "var(--text-primary)",
+                    borderRadius: m.from === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+                  }}
                 >
                   {m.text}
                 </div>
               ))}
             </div>
 
-            {/* Input Footer */}
-            <div className="p-3 border-t border-white/10 flex gap-2">
+            {/* Input */}
+            <div className="flex gap-2 p-3" style={{ borderTop: "1px solid var(--border)" }}>
               <input
-                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Ask AI assistant..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00F0FF]"
+                onKeyDown={(e) => e.key === "Enter" && send()}
+                placeholder="Ask me anything..."
+                className="flex-1 bg-transparent text-xs outline-none placeholder-[var(--text-muted)]"
+                style={{ color: "var(--text-primary)" }}
               />
               <button
-                onClick={handleSend}
-                className="bg-[#00F0FF] text-black font-bold px-3 py-2 rounded-xl text-xs hover:bg-white transition-colors"
+                onClick={send}
+                className="h-8 px-3.5 rounded-full text-xs font-bold transition-all"
+                style={{ background: "var(--cyan)", color: "#000" }}
               >
                 Send
               </button>
@@ -88,15 +93,22 @@ export default function AIChatbot() {
         )}
       </AnimatePresence>
 
-      {/* Floating Trigger Button */}
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="w-14 h-14 rounded-full bg-slate-900 border border-[#00F0FF]/50 text-[#00F0FF] flex items-center justify-center shadow-lg shadow-[#0066FF]/20 hover:scale-110 transition-transform"
+      {/* Trigger */}
+      <motion.button
+        onClick={() => setOpen((v) => !v)}
+        whileTap={{ scale: 0.93 }}
+        className="w-13 h-13 rounded-full flex items-center justify-center shadow-[var(--shadow-cyan)] transition-all"
+        style={{
+          width: 52, height: 52,
+          background: open ? "var(--cyan)" : "var(--surface-2)",
+          border: "1px solid var(--border-hover)",
+          color: open ? "#000" : "var(--cyan)",
+        }}
       >
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
-      </button>
+      </motion.button>
     </div>
   );
 }

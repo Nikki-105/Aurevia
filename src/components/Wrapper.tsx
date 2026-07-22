@@ -1,21 +1,26 @@
 "use client";
 
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
+import React from "react";
 
-export function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs));
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(" ");
 }
 
 interface WrapperProps {
   children: React.ReactNode;
   className?: string;
-  as?: React.ElementType;
 }
 
 export default function Wrapper({ children, className }: WrapperProps) {
   return (
-    <div className={cn("w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]", className)}>
+    <div
+      className={cn(
+        "w-full mx-auto",
+        "px-5 sm:px-6 md:px-8 lg:px-10",
+        "max-w-[1400px]",
+        className
+      )}
+    >
       <div className="w-full max-w-[1320px] mx-auto">
         {children}
       </div>

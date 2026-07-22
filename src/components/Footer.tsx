@@ -1,103 +1,151 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { motion } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
 import Wrapper from "./Wrapper";
+import MagneticButton from "./MagneticButton";
+import Button from "./Button";
 
-function ConstellationStars() {
-  const pointsRef = useRef<THREE.Points>(null);
-  const count = 1000;
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
-    }
-    return pos;
-  }, [count]);
+const LINKS = {
+  Services: ["Web Development", "AI Automation", "SaaS Development", "Mobile Apps", "UI/UX Design", "Branding"],
+  Company:  ["About", "Work", "Process", "Pricing", "Blog", "Careers"],
+  Legal:    ["Privacy Policy", "Terms of Service", "Cookie Policy"],
+};
 
-  useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
-    }
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.025} color="#00F0FF" transparent opacity={0.6} />
-    </points>
-  );
-}
+const SOCIALS = [
+  { name: "Twitter",   href: "#", icon: "𝕏" },
+  { name: "LinkedIn",  href: "#", icon: "in" },
+  { name: "Instagram", href: "#", icon: "◎" },
+  { name: "Dribbble",  href: "#", icon: "◕" },
+];
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-[#050505] text-white pt-32 pb-12 z-20 overflow-hidden border-t border-white/10">
-      
-      {/* 3D Galaxy Constellation Canvas Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <Canvas camera={{ position: [0, 0, 5] }}>
-          <ConstellationStars />
-        </Canvas>
+    <footer style={{ background: "#030303", borderTop: "1px solid var(--border)" }}>
+      {/* CTA band */}
+      <div style={{ borderBottom: "1px solid var(--border)" }}>
+        <Wrapper>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-20">
+            <div className="flex flex-col gap-3 max-w-xl text-center md:text-left">
+              <h2
+                className="font-black tracking-tight"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontSize: "clamp(28px, 4vw, 48px)",
+                  color: "var(--text-primary)",
+                  lineHeight: 1.1,
+                }}
+              >
+                Ready to build something
+                <span style={{
+                  background: "linear-gradient(120deg, var(--cyan), #0066ff)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  display: "inline",
+                }}> extraordinary?</span>
+              </h2>
+              <p className="t-body" style={{ color: "var(--text-tertiary)" }}>
+                Join 127+ companies who trusted WebAura to engineer their digital future.
+              </p>
+            </div>
+            <MagneticButton>
+              <Button variant="primary" href="#contact">
+                Start Your Project
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Button>
+            </MagneticButton>
+          </div>
+        </Wrapper>
       </div>
 
-      <Wrapper className="relative z-10 flex flex-col">
-        
-        {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
-          <div className="flex flex-col lg:col-span-2">
-            <h3 className="text-3xl font-extrabold font-heading text-white mb-4">WebAura<span className="text-[#00F0FF]">.</span></h3>
-            <p className="text-slate-400 max-w-sm text-sm leading-relaxed mb-6">
-              Engineering Digital Experiences That Convert. An Awwwards-grade digital studio building bespoke Next.js 15, WebGL 3D, and AI platforms.
+      {/* Main footer content */}
+      <Wrapper>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-16" style={{ borderBottom: "1px solid var(--border)" }}>
+          {/* Brand col */}
+          <div className="col-span-2 md:col-span-1 flex flex-col gap-5">
+            <div className="text-xl font-black" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+              WebAura<span style={{ color: "var(--cyan)" }}>.</span>
+            </div>
+            <p className="t-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              Engineering digital experiences that convert. Awwwards-grade quality, enterprise-grade engineering.
             </p>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#00F0FF] animate-pulse" />
-              <span className="text-xs font-mono text-slate-300">Available for Q3/Q4 Enterprise Partnerships</span>
+            <div className="flex items-center gap-3 mt-2">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  aria-label={s.name}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid var(--border)",
+                    color: "var(--text-tertiary)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--cyan)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--cyan)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
+                  }}
+                >
+                  {s.icon}
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">Navigation</span>
-            <a href="#hero" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Home</a>
-            <a href="#about" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">About Studio</a>
-            <a href="#services" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">16 Capabilities</a>
-            <a href="#portfolio" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Case Studies</a>
-            <a href="#process" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Roadmap</a>
+          {/* Link columns */}
+          {Object.entries(LINKS).map(([group, links]) => (
+            <div key={group} className="flex flex-col gap-4">
+              <p className="t-label" style={{ color: "var(--text-muted)" }}>{group}</p>
+              <ul className="flex flex-col gap-3">
+                {links.map((link) => (
+                  <li key={link}>
+                    <a
+                      href="#"
+                      className="t-sm transition-colors"
+                      style={{ color: "var(--text-tertiary)" }}
+                      onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-primary)"}
+                      onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)"}
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8">
+          <p className="t-xs" style={{ color: "var(--text-muted)" }}>
+            © {new Date().getFullYear()} WebAura Studio. All rights reserved.
+          </p>
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--cyan)" }} />
+            <span className="t-xs" style={{ color: "var(--text-muted)" }}>Built with Next.js 15 · Deployed on Vercel</span>
           </div>
-
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">Connect</span>
-            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Twitter / X</a>
-            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">LinkedIn</a>
-            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">GitHub</a>
-            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Awwwards Profile</a>
-          </div>
         </div>
 
-        {/* Massive 200px Glowing Typography Statement */}
-        <div className="w-full border-b border-white/10 pb-12 mb-8 text-center flex items-center justify-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="text-[clamp(48px,14vw,220px)] font-extrabold font-heading leading-none tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/10 drop-shadow-[0_0_50px_rgba(0,240,255,0.2)]"
-          >
-            WEBAURA
-          </motion.h1>
+        {/* Giant wordmark */}
+        <div
+          className="text-center pb-8 font-black tracking-tighter select-none pointer-events-none overflow-hidden"
+          style={{
+            fontSize: "clamp(60px, 16vw, 220px)",
+            fontFamily: "var(--font-heading)",
+            lineHeight: 0.85,
+            background: "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          WEBAURA
         </div>
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-xs font-mono">
-          <span>© {new Date().getFullYear()} WebAura Studio. All rights reserved.</span>
-          <span>100/100 Lighthouse • Handcrafted in San Francisco</span>
-        </div>
-
       </Wrapper>
     </footer>
   );

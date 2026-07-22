@@ -6,57 +6,55 @@ interface SplitTextProps {
   text: string;
   className?: string;
   delay?: number;
+  stagger?: number;
+  once?: boolean;
 }
 
-export default function SplitText({ text, className = "", delay = 0 }: SplitTextProps) {
+export default function SplitText({
+  text,
+  className = "",
+  delay = 0,
+  stagger = 0.08,
+  once = true,
+}: SplitTextProps) {
   const words = text.split(" ");
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: delay * i },
-    }),
-  };
-
-  const child = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 40,
-      transition: {
-        type: "spring" as const,
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
-
   return (
-    <motion.div
-      style={{ overflow: "hidden", display: "flex", flexWrap: "wrap" }}
-      variants={container}
+    <motion.span
+      className={`inline-block ${className}`}
       initial="hidden"
-      animate="visible"
-      className={className}
+      whileInView="visible"
+      viewport={{ once }}
+      style={{ display: "flex", flexWrap: "wrap", gap: "0.25em" }}
     >
-      {words.map((word, index) => (
+      {words.map((word, i) => (
         <motion.span
-          variants={child}
-          style={{ marginRight: "0.25em" }}
-          key={index}
+          key={i}
+          className="inline-block overflow-hidden"
+          variants={{
+            hidden: {},
+            visible: {},
+          }}
         >
-          {word}
+          <motion.span
+            className="inline-block"
+            variants={{
+              hidden: { y: "110%", opacity: 0 },
+              visible: {
+                y: "0%",
+                opacity: 1,
+                transition: {
+                  duration: 0.8,
+                  delay: delay + i * stagger,
+                  ease: [0.16, 1, 0.3, 1] as any,
+                },
+              },
+            }}
+          >
+            {word}
+          </motion.span>
         </motion.span>
       ))}
-    </motion.div>
+    </motion.span>
   );
 }

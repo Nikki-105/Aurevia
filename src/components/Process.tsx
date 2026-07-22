@@ -4,109 +4,100 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Wrapper from "./Wrapper";
 
-const steps = [
+const STEPS = [
   {
-    num: "01",
-    title: "Discovery & Technical Interrogation",
-    description: "We dive deep into your enterprise logic, target user cohorts, and performance bottlenecks to construct a high-conversion technical blueprint.",
-    chips: ["Architecture", "Benchmarking", "UX Audit"]
+    n: "01",
+    title: "Discovery & Strategy",
+    duration: "Week 1–2",
+    desc: "We run an intensive discovery sprint — market analysis, user research, competitor teardowns, and architecture planning. You receive a complete project blueprint before a single line of code is written.",
+    deliverables: ["Brand Audit", "Technical Architecture", "Sprint Roadmap", "SLA Agreement"],
   },
   {
-    num: "02",
-    title: "High-Fashion Editorial Design",
-    description: "We craft bespoke UI prototypes, custom 3D WebGL assets, and dark-mode glassmorphism tokens that make your brand look like a market leader.",
-    chips: ["Figma 3D", "Design Tokens", "Wireframing"]
+    n: "02",
+    title: "Design System & Prototype",
+    duration: "Week 2–3",
+    desc: "Our designers build a complete design system in Figma — tokens, components, motion language — and produce high-fidelity prototypes that feel production-ready from day one.",
+    deliverables: ["Figma Design System", "Interactive Prototype", "Motion Spec", "Brand Guidelines"],
   },
   {
-    num: "03",
-    title: "Next.js 15 & AI Engineering",
-    description: "We write zero-vulnerability TypeScript codebases, configure server components, and integrate autonomous AI agents and automated workflows.",
-    chips: ["Next.js 15", "React 19", "AI LLMs"]
+    n: "03",
+    title: "Engineering & Development",
+    duration: "Week 3–7",
+    desc: "Senior engineers implement the system in weekly sprints. You have access to a live staging environment throughout the build with daily async updates via Loom and Notion.",
+    deliverables: ["Production Codebase", "CI/CD Pipeline", "Testing Suite", "Staging Environment"],
   },
   {
-    num: "04",
-    title: "100 Lighthouse Launch & SLA",
-    description: "Rigorous load testing, Core Web Vitals optimization, and automated SEO schema indexation ensure your product converts from day one.",
-    chips: ["100/100 Audit", "Edge CDN", "24/7 SLA"]
-  }
+    n: "04",
+    title: "Launch & Scale",
+    duration: "Week 7–8",
+    desc: "Zero-downtime production deployment. We run Lighthouse audits, Core Web Vitals validation, SEO indexing, and 30-day post-launch monitoring before handover.",
+    deliverables: ["100/100 Lighthouse", "SEO Indexing", "30-day Support", "Full Source Transfer"],
+  },
 ];
 
 export default function Process() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
-
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="process" className="relative w-full ds-section z-10 bg-[#050505] text-white">
+    <section id="process" className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>
       <Wrapper>
-        <div className="flex flex-col lg:flex-row gap-20 relative" ref={containerRef}>
-          
-          {/* Sticky Header */}
-          <div className="lg:w-1/3 flex flex-col">
-            <div className="lg:sticky lg:top-36">
-              <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading flex items-center gap-4">
-                <div className="w-8 h-[1px] bg-[#00F0FF]" />
-                The Story & Roadmap
-              </span>
-              <h2 className="ds-section-title text-white font-heading mb-6">
-                A mathematical approach to digital perfection.
-              </h2>
-              <p className="ds-body text-slate-400">
-                Every phase of our engineering workflow is choreographed to eliminate risk, maximize speed, and deliver a 100/100 Lighthouse product.
-              </p>
-            </div>
-          </div>
 
-          {/* Timeline Cards */}
-          <div className="lg:w-2/3 relative flex flex-col pt-8 lg:pt-0">
-            <div className="absolute left-[27px] top-0 bottom-0 w-[2px] bg-white/10 hidden md:block" />
-            <motion.div 
-              style={{ height: lineHeight }}
-              className="absolute left-[27px] top-0 w-[2px] bg-[#00F0FF] origin-top hidden md:block z-10 shadow-[0_0_10px_#00F0FF]"
-            />
+        {/* Header */}
+        <div className="flex flex-col gap-4 mb-20 max-w-xl">
+          <p className="t-label" style={{ color: "var(--cyan)" }}>How We Work</p>
+          <h2 className="t-section" style={{ color: "var(--text-primary)" }}>
+            A process built for speed without compromise.
+          </h2>
+        </div>
 
-            <div className="flex flex-col gap-24">
-              {steps.map((step, i) => (
-                <motion.div 
-                  key={step.num}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className="relative flex flex-col md:flex-row gap-8 items-start group"
-                >
-                  <div className="hidden md:flex absolute left-[22px] top-4 w-3 h-3 bg-[#050505] border-2 border-[#00F0FF] rounded-full z-20 group-hover:scale-150 transition-transform" />
-                  
-                  <div className="md:w-32 flex-shrink-0 md:text-right pt-2 md:pl-12">
-                    <span className="text-5xl font-mono font-bold text-white/20 group-hover:text-[#00F0FF] transition-colors font-heading">
-                      {step.num}
-                    </span>
+        {/* Steps */}
+        <div ref={wrapRef} className="flex flex-col gap-4">
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={step.n}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative grid grid-cols-1 lg:grid-cols-12 gap-0 rounded-[var(--r-xl)] overflow-hidden"
+              style={{
+                background: "var(--surface-card)",
+                border: "1px solid var(--border)",
+                transition: "border-color 350ms ease",
+              }}
+              whileHover={{ borderColor: "rgba(0,229,255,0.3)" } as any}
+            >
+              {/* Left sidebar */}
+              <div className="lg:col-span-3 flex flex-col justify-between p-8 lg:p-10" style={{ borderRight: "1px solid var(--border)" }}>
+                <div className="flex flex-col gap-2">
+                  <span className="t-mono text-[10px]" style={{ color: "var(--text-muted)" }}>PHASE</span>
+                  <span className="text-5xl font-black" style={{ fontFamily: "var(--font-heading)", color: "rgba(255,255,255,0.08)" }}>
+                    {step.n}
+                  </span>
+                </div>
+                <span className="t-label text-[9px] mt-6" style={{ color: "var(--cyan)" }}>{step.duration}</span>
+              </div>
+
+              {/* Center content */}
+              <div className="lg:col-span-6 flex flex-col justify-center p-8 lg:p-10 gap-4">
+                <h3 className="text-2xl font-bold tracking-tight" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+                  {step.title}
+                </h3>
+                <p className="t-body leading-relaxed" style={{ color: "var(--text-secondary)" }}>{step.desc}</p>
+              </div>
+
+              {/* Right deliverables */}
+              <div className="lg:col-span-3 flex flex-col justify-center p-8 lg:p-10 gap-3" style={{ borderLeft: "1px solid var(--border)" }}>
+                <p className="t-label mb-2" style={{ color: "var(--text-muted)" }}>Deliverables</p>
+                {step.deliverables.map((d) => (
+                  <div key={d} className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full shrink-0" style={{ background: "var(--cyan)" }} />
+                    <span className="t-sm" style={{ color: "var(--text-secondary)" }}>{d}</span>
                   </div>
-
-                  <div className="flex-1 ds-card p-8 group-hover:border-[#00F0FF]/40">
-                    <h3 className="text-2xl font-bold font-heading text-white mb-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                      {step.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {step.chips.map(chip => (
-                        <span key={chip} className="text-[10px] font-mono px-3 py-1 rounded-full bg-white/5 text-slate-300 border border-white/10">
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </Wrapper>
     </section>

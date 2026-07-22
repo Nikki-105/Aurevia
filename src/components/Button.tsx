@@ -1,144 +1,75 @@
 "use client";
 
-import * as React from "react";
-import { cn } from "./Wrapper";
+import React from "react";
+import { motion } from "framer-motion";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "text";
-  icon?: React.ReactNode;
-  iconPosition?: "left" | "right";
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary" | "ghost";
+  href?: string;
+  onClick?: () => void;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
   isLoading?: boolean;
 }
 
 export default function Button({
   children,
-  className,
   variant = "primary",
-  icon,
-  iconPosition = "right",
-  isLoading = false,
-  disabled = false,
+  href,
+  onClick,
+  className = "",
   type = "button",
-  ...props
+  disabled = false,
+  isLoading = false,
 }: ButtonProps) {
-  const baseStyles = cn(
-    "inline-flex items-center justify-center",
-    "whitespace-nowrap shrink-0 select-none",
-    "font-semibold tracking-[-0.02em]",
-    "transition-all duration-300 ease-out",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2",
-    "disabled:pointer-events-none disabled:opacity-50"
-  );
+  const base =
+    "inline-flex items-center justify-center gap-2.5 font-semibold transition-all select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-0)] disabled:opacity-40 disabled:pointer-events-none";
 
   const variants = {
-    primary: cn(
-      "min-h-[52px]",
-      "px-7",
-      "rounded-full",
-      "bg-slate-900",
-      "text-white",
-      "shadow-lg",
-      "hover:-translate-y-0.5",
-      "hover:scale-[1.02]",
-      "hover:shadow-xl",
-      "active:translate-y-0"
-    ),
-
-    secondary: cn(
-      "min-h-[52px]",
-      "px-7",
-      "rounded-full",
-      "border border-slate-200",
-      "bg-white",
-      "text-slate-900",
-      "shadow-sm",
-      "hover:bg-slate-50",
-      "hover:-translate-y-0.5",
-      "hover:shadow-md"
-    ),
-
-    ghost: cn(
-      "min-h-[52px]",
-      "px-7",
-      "rounded-full",
-      "text-slate-700",
-      "hover:bg-slate-100",
-      "hover:text-slate-900"
-    ),
-
-    text: cn(
-      "group",
-      "gap-2",
-      "p-0",
-      "text-[16px]",
-      "font-semibold",
-      "text-slate-900",
-      "hover:text-[var(--color-accent)]"
-    ),
+    primary:
+      "h-[52px] px-7 rounded-[var(--r-full)] bg-[var(--cyan)] text-black text-sm font-bold tracking-[-0.01em] shadow-[0_0_24px_rgba(0,229,255,0.4)] hover:shadow-[0_0_40px_rgba(0,229,255,0.6)] hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.98]",
+    secondary:
+      "h-[52px] px-7 rounded-[var(--r-full)] border border-[var(--border-strong)] text-[var(--text-primary)] text-sm font-semibold tracking-[-0.01em] hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:shadow-[0_0_20px_rgba(0,229,255,0.15)] hover:-translate-y-0.5 active:scale-[0.98]",
+    ghost:
+      "h-[44px] px-5 rounded-[var(--r-full)] text-[var(--text-secondary)] text-sm hover:text-[var(--text-primary)] hover:bg-white/5 active:scale-[0.98]",
   };
 
-  return (
-    <button
-      type={type}
-      disabled={disabled || isLoading}
-      className={cn(baseStyles, variants[variant], className)}
-      {...props}
-    >
+  const inner = (
+    <>
       {isLoading ? (
-        <svg
-          className="mr-2 h-5 w-5 animate-spin shrink-0"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-            className="opacity-20"
-          />
-          <path
-            fill="currentColor"
-            d="M12 2a10 10 0 0 1 10 10h-4a6 6 0 0 0-6-6V2Z"
-          />
+        <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+          <path fill="currentColor" d="M12 2a10 10 0 0 1 10 10h-3a7 7 0 0 0-7-7V2Z" />
         </svg>
-      ) : (
-        <>
-          {icon && iconPosition === "left" && (
-            <span className="flex items-center justify-center shrink-0">
-              {icon}
-            </span>
-          )}
+      ) : null}
+      {children}
+    </>
+  );
 
-          <span className="whitespace-nowrap">
-            {children}
-          </span>
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={`${base} ${variants[variant]} ${className}`}
+        style={{ transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+      >
+        {inner}
+      </a>
+    );
+  }
 
-          {icon && iconPosition === "right" && variant !== "text" && (
-            <span className="flex items-center justify-center shrink-0">
-              {icon}
-            </span>
-          )}
-
-          {variant === "text" && !icon && (
-            <svg
-              className="transition-transform duration-300 group-hover:translate-x-1"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          )}
-        </>
-      )}
-    </button>
+  return (
+    <motion.button
+      type={type}
+      onClick={onClick}
+      disabled={disabled || isLoading}
+      className={`${base} ${variants[variant]} ${className}`}
+      whileTap={{ scale: 0.97 }}
+      style={{ transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)" } as any}
+    >
+      {inner}
+    </motion.button>
   );
 }

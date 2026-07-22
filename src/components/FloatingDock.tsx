@@ -2,40 +2,44 @@
 
 import { motion } from "framer-motion";
 
-const dockItems = [
-  { id: "hero", label: "Home", icon: "🏠" },
-  { id: "about", label: "About", icon: "✨" },
-  { id: "services", label: "Services", icon: "⚙️" },
-  { id: "portfolio", label: "Work", icon: "🚀" },
-  { id: "process", label: "Process", icon: "🛣️" },
-  { id: "pricing", label: "Pricing", icon: "💎" },
-  { id: "contact", label: "Contact", icon: "💬" },
+const ITEMS = [
+  { id: "hero",      icon: "◆",  label: "Home"     },
+  { id: "about",     icon: "∞",  label: "About"    },
+  { id: "services",  icon: "⊙",  label: "Services" },
+  { id: "portfolio", icon: "◈",  label: "Work"     },
+  { id: "process",   icon: "→",  label: "Process"  },
+  { id: "pricing",   icon: "◇",  label: "Pricing"  },
+  { id: "contact",   icon: "✦",  label: "Contact"  },
 ];
 
 export default function FloatingDock() {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9985] hidden md:flex items-center gap-2 px-4 py-2 bg-[#0b0b0b]/80 backdrop-blur-xl border border-white/15 rounded-full shadow-2xl shadow-black/80">
-      {dockItems.map((item) => (
-        <motion.button
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9980] hidden md:flex items-center gap-1.5 px-4 py-2.5 glass rounded-full shadow-[var(--shadow-md)]" style={{ border: "1px solid var(--border)" }}>
+      {ITEMS.map((item) => (
+        <motion.a
           key={item.id}
-          whileHover={{ scale: 1.25, y: -6 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => scrollTo(item.id)}
-          className="relative group p-3 rounded-full text-lg hover:bg-white/10 transition-colors"
+          href={`#${item.id}`}
           title={item.label}
+          whileHover={{ scale: 1.3, y: -5 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 300, damping: 16 }}
+          className="relative group w-9 h-9 flex items-center justify-center rounded-full text-sm transition-colors"
+          style={{ color: "var(--text-tertiary)" }}
+          onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "var(--cyan)"}
+          onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)"}
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
+          }}
         >
-          <span>{item.icon}</span>
-          <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-[#111] text-white text-[10px] font-bold rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">
+          {item.icon}
+          <span
+            className="absolute -top-9 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-md text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            style={{ background: "var(--surface-3)", color: "var(--text-primary)", border: "1px solid var(--border)" }}
+          >
             {item.label}
           </span>
-        </motion.button>
+        </motion.a>
       ))}
     </div>
   );

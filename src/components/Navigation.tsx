@@ -1,74 +1,110 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
 import MagneticButton from "./MagneticButton";
+import Wrapper from "./Wrapper";
+
+const LINKS = ["About", "Services", "Work", "Process", "Pricing", "Contact"];
 
 export default function Navigation() {
-  const { setCursorType, setCursorLabel } = useCursor();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { scrollY } = useScroll();
+  const { setCursorType } = useCursor();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    return scrollY.onChange((latest) => {
-      setIsScrolled(latest > 50);
-    });
-  }, [scrollY]);
+    const handler = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
   return (
     <motion.header
-      initial={{ y: -100, opacity: 0 }}
+      initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 md:px-6"
+      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+      style={{ paddingTop: scrolled ? "12px" : "20px", transition: "padding 300ms ease" }}
     >
-      <motion.nav 
-        className={`flex items-center justify-between h-[72px] px-8 bg-[#0e0f14]/80 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300 ${
-          isScrolled ? 'w-[90%] md:w-[65%] lg:w-[48%]' : 'w-full max-w-[1320px]'
-        }`}
-        style={{ borderRadius: isScrolled ? '36px' : '24px' }}
-      >
-        {/* Brand Logo */}
-        <div 
-          className="text-xl font-[800] tracking-tighter text-white font-heading cursor-pointer flex items-center gap-1 select-none"
-          onMouseEnter={() => setCursorType("text")}
-          onMouseLeave={() => setCursorType("default")}
+      <Wrapper className="px-0">
+        <nav
+          className="flex items-center justify-between h-[72px] px-8 transition-all"
+          style={{
+            background:    scrolled ? "rgba(8,8,12,0.85)" : "transparent",
+            backdropFilter: scrolled ? "blur(20px)" : "none",
+            border:        scrolled ? "1px solid var(--border)" : "1px solid transparent",
+            borderRadius:  scrolled ? "var(--r-full)" : "var(--r-xl)",
+            boxShadow:     scrolled ? "var(--shadow-md)" : "none",
+            transition:    "all 350ms cubic-bezier(0.16,1,0.3,1)",
+          }}
         >
-          WebAura<span className="text-[#00F0FF]">.</span>
-        </div>
+          {/* Logo */}
+          <a
+            href="#hero"
+            className="text-[18px] font-black tracking-tight select-none"
+            style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}
+            onMouseEnter={() => setCursorType("pointer")}
+            onMouseLeave={() => setCursorType("default")}
+            onClick={(e) => { e.preventDefault(); document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" }); }}
+          >
+            WebAura<span style={{ color: "var(--cyan)" }}>.</span>
+          </a>
 
-        {/* Navigation Links with 32px gap */}
-        <div className="hidden md:flex items-center gap-[32px]">
-          {['About', 'Services', 'Work', 'Process', 'Pricing', 'Contact'].map((item) => (
-            <a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-xs font-mono font-medium text-slate-300 hover:text-[#00F0FF] transition-colors"
-              onMouseEnter={() => {
-                setCursorType("pointer");
-              }}
-              onMouseLeave={() => setCursorType("default")}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
+          {/* Links */}
+          <div className="hidden md:flex items-center gap-9">
+            {LINKS.map((link) => (
+              <a
+                key={link}
+                href={`#${link.toLowerCase()}`}
+                className="t-mono text-[11px] transition-colors"
+                style={{ color: "var(--text-tertiary)" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                  setCursorType("pointer");
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
+                  setCursorType("default");
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
 
-        {/* Elegant CTA Button (44px height, vertically aligned) */}
-        <div className="hidden md:flex items-center">
+          {/* CTA */}
           <MagneticButton>
             <a
               href="#contact"
-              className="inline-flex items-center justify-center h-[44px] px-6 rounded-full bg-[#00F0FF] text-black text-xs font-bold font-sans hover:bg-white hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(0,240,255,0.3)]"
-              onMouseEnter={() => setCursorType("text")} 
-              onMouseLeave={() => setCursorType("default")}
+              className="inline-flex items-center gap-2 h-[44px] px-6 rounded-full text-xs font-bold transition-all"
+              style={{
+                background: "var(--cyan)",
+                color: "#000",
+                boxShadow: "0 0 20px rgba(0,229,255,0.3)",
+                letterSpacing: "-0.01em",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 36px rgba(0,229,255,0.55)";
+                setCursorType("pointer");
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(0,229,255,0.3)";
+                setCursorType("default");
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Start Project
             </a>
           </MagneticButton>
-        </div>
-      </motion.nav>
+        </nav>
+      </Wrapper>
     </motion.header>
   );
 }

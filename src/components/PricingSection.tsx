@@ -1,178 +1,161 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
 import Button from "./Button";
 import MagneticButton from "./MagneticButton";
 
-const plans = [
+const PLANS = [
   {
-    name: "Growth Agency Package",
-    price: "$25,000",
-    period: "one-time investment",
-    desc: "Perfect for fast-growing startups needing a high-conversion 100 Lighthouse Next.js web application.",
+    name: "Starter",
+    subtitle: "For growing businesses",
+    price: "$9,500",
+    period: "per project",
     features: [
-      "Bespoke Next.js 15 Platform",
-      "Custom WebGL Hero Canvas",
-      "Core Web Vitals 100 Guarantee",
-      "Basic AI Chatbot Integration",
-      "30-Day Post-Launch Support"
+      "Up to 8-page Next.js website",
+      "Mobile-responsive design",
+      "Basic SEO setup",
+      "Contact form + lead capture",
+      "2 revision rounds",
+      "2-week delivery",
+      "30-day support",
     ],
-    recommended: false,
+    cta: "Get Started",
+    featured: false,
+    color: "var(--text-primary)",
   },
   {
-    name: "Enterprise Flagship",
-    price: "$50,000",
-    period: "one-time investment",
-    desc: "Full-scale luxury digital engineering with bespoke 3D physics, AI Voice Agents, and ERP integration.",
+    name: "Enterprise",
+    subtitle: "Our most popular package",
+    price: "$24,500",
+    period: "per project",
     features: [
-      "Full 3D WebGL Interactive Canvas Architecture",
-      "Autonomous AI Voice & Chatbot Agents",
-      "Enterprise CRM / ERP API Connections",
-      "Custom Real-Time Telemetry Dashboard",
-      "24/7 Priority SLA & Dedicated Architect"
+      "Unlimited pages & complexity",
+      "Custom design system",
+      "Advanced animations & WebGL",
+      "CMS / Headless integration",
+      "AI chatbot included",
+      "Full SEO & Core Web Vitals",
+      "4 revision rounds",
+      "6-week delivery",
+      "90-day priority support",
     ],
-    recommended: true,
+    cta: "Start Enterprise",
+    featured: true,
+    color: "var(--cyan)",
   },
   {
-    name: "Custom Enterprise SLA",
-    price: "Custom Quote",
-    period: "custom scope",
-    desc: "Dedicated team of engineers, 3D artists, and AI researchers for continuous digital transformation.",
+    name: "Custom",
+    subtitle: "For complex, bespoke builds",
+    price: "Let's Talk",
+    period: "scoped to your needs",
     features: [
-      "Dedicated Lead Solutions Architect",
-      "Unlimited Custom AI Workflows",
-      "Bespoke Shaders & Canvas FX",
-      "Continuous Core Web Vitals Audits",
-      "Dedicated Slack Channel & 99.99% SLA"
+      "SaaS / Mobile / ERP / AI systems",
+      "Full product strategy",
+      "Dedicated engineering team",
+      "Multi-year roadmap capability",
+      "Ongoing retainer options",
+      "White-label available",
+      "Executive access",
     ],
-    recommended: false,
+    cta: "Book a Call",
+    featured: false,
+    color: "var(--text-primary)",
   },
 ];
 
 export default function PricingSection() {
-  const [billing, setBilling] = useState<"project" | "retainer">("project");
-
   return (
-    <section id="pricing" className="relative w-full ds-section z-10 bg-[#0e0f14] text-white border-t border-white/10">
+    <section id="pricing" className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>
       <Wrapper>
-        
-        {/* Header Rhythm: Badge (32px) -> Heading (24px) -> Description (48px) */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
-          
-          {/* Badge */}
-          <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-pulse" />
-            Transparent Pricing
-          </span>
-
-          {/* Huge Editorial Heading */}
-          <h2 className="ds-section-title text-white font-heading ds-mb-heading leading-tight">
-            Invest in digital infrastructure that converts.
+        {/* Header */}
+        <div className="flex flex-col items-center text-center gap-4 mb-20 max-w-2xl mx-auto">
+          <p className="t-label" style={{ color: "var(--cyan)" }}>Transparent Pricing</p>
+          <h2 className="t-section" style={{ color: "var(--text-primary)" }}>
+            Investment that pays for itself.
           </h2>
-
-          {/* Description */}
-          <p className="ds-body text-slate-300 ds-mb-paragraph max-w-xl">
-            No hidden fees. Every package guarantees 100/100 Lighthouse performance and zero technical debt.
+          <p className="t-body" style={{ color: "var(--text-tertiary)" }}>
+            No retainers. No surprises. Fixed-scope pricing so you know exactly what you're getting.
           </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center gap-3 p-1.5 rounded-full bg-[#14151a] border border-white/15 mb-16 shadow-lg">
-            <button
-              onClick={() => setBilling("project")}
-              className={`px-6 py-2.5 rounded-full text-xs font-mono font-bold transition-all ${
-                billing === "project" 
-                  ? "bg-[#00F0FF] text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]" 
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              Project Based
-            </button>
-            <button
-              onClick={() => setBilling("retainer")}
-              className={`px-6 py-2.5 rounded-full text-xs font-mono font-bold transition-all ${
-                billing === "retainer" 
-                  ? "bg-[#00F0FF] text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]" 
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              Monthly Retainer
-            </button>
-          </div>
-
         </div>
 
-        {/* Pricing Cards Grid with 32px-48px gaps */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
-          {plans.map((p) => (
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          {PLANS.map((plan, i) => (
             <motion.div
-              key={p.name}
+              key={plan.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className={`flex flex-col justify-between relative ${
-                p.recommended ? "featured-card" : "ds-card"
-              }`}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className={plan.featured ? "card-featured" : "card"}
             >
-              {/* Top Right "Most Popular" Badge inside Featured Card */}
-              {p.recommended && (
-                <div className="absolute top-6 right-6 px-3 py-1 bg-[#00F0FF] text-black text-[10px] font-mono font-bold tracking-wider uppercase rounded-full shadow-[0_0_15px_rgba(0,240,255,0.5)]">
-                  Most Popular
+              {/* Featured badge */}
+              {plan.featured && (
+                <div className="flex justify-center mb-6">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full t-label text-[9px]"
+                    style={{ background: "var(--cyan-dim)", color: "var(--cyan)", border: "1px solid rgba(0,229,255,0.4)" }}>
+                    ✦ Most Popular
+                  </span>
                 </div>
               )}
 
-              <div>
-                {/* 1. Title */}
-                <h3 className="text-xl font-bold font-heading text-white mb-4 pr-24">
-                  {p.name}
-                </h3>
-
-                {/* 2. Price Dominates (48px font-heading) */}
-                <div className="mb-4">
-                  <span className="text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight block">
-                    {p.price}
-                  </span>
-                  <span className="text-xs font-mono text-slate-400 mt-1 block">
-                    {p.period}
-                  </span>
-                </div>
-
-                {/* 3. Description */}
-                <p className="text-sm text-slate-300 leading-relaxed mb-8 border-b border-white/10 pb-6">
-                  {p.desc}
-                </p>
-
-                {/* 4. Features List with 16px Gaps */}
-                <div className="space-y-4 mb-10">
-                  {p.features.map((feat) => (
-                    <div key={feat} className="flex items-start gap-3 text-xs text-slate-200">
-                      <span className="text-[#00F0FF] font-bold mt-0.5">✓</span>
-                      <span className="leading-snug">{feat}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* Plan header */}
+              <div className="mb-8">
+                <p className="t-label text-[10px] mb-2" style={{ color: plan.color }}>{plan.name}</p>
+                <p className="t-sm" style={{ color: "var(--text-tertiary)" }}>{plan.subtitle}</p>
               </div>
 
-              {/* 5. Elegant CTA Button (48px height) */}
+              {/* Price */}
+              <div className="mb-10" style={{ borderBottom: "1px solid var(--border)", paddingBottom: "32px" }}>
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="font-black tracking-tight"
+                    style={{
+                      fontFamily: "var(--font-heading)",
+                      fontSize:   plan.price === "Let's Talk" ? "32px" : "44px",
+                      color:      plan.featured ? "var(--cyan)" : "var(--text-primary)",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {plan.price}
+                  </span>
+                </div>
+                <p className="t-xs mt-2" style={{ color: "var(--text-muted)" }}>{plan.period}</p>
+              </div>
+
+              {/* Features */}
+              <ul className="flex flex-col gap-3.5 mb-10">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="7" stroke={plan.featured ? "var(--cyan)" : "var(--border-strong)"} strokeWidth="1" />
+                      <path d="M5 8l2 2 4-4" stroke={plan.featured ? "var(--cyan)" : "var(--text-tertiary)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="t-sm" style={{ color: plan.featured ? "var(--text-secondary)" : "var(--text-tertiary)" }}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
               <MagneticButton className="w-full">
-                <Button 
-                  variant={p.recommended ? "primary" : "secondary"} 
-                  className={`w-full h-[48px] text-xs font-bold ${
-                    p.recommended 
-                      ? "bg-[#00F0FF] text-black hover:bg-white shadow-[0_0_25px_rgba(0,240,255,0.4)]" 
-                      : "border-white/20 text-white hover:bg-white/10"
-                  }`}
+                <Button
+                  variant={plan.featured ? "primary" : "secondary"}
+                  href="#contact"
+                  className="w-full justify-center"
                 >
-                  {p.recommended ? "Get Started Today" : "Select Package"}
+                  {plan.cta}
                 </Button>
               </MagneticButton>
-
             </motion.div>
           ))}
         </div>
 
+        {/* Bottom note */}
+        <p className="text-center t-xs mt-10" style={{ color: "var(--text-muted)" }}>
+          All plans include IP ownership transfer, source code delivery, and written SLA agreements.
+          Need a custom scope? <a href="#contact" className="underline" style={{ color: "var(--text-tertiary)" }}>Let's talk.</a>
+        </p>
       </Wrapper>
     </section>
   );

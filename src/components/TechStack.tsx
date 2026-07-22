@@ -3,59 +3,108 @@
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
 
-const techList = [
-  { name: "Next.js 15", x: "-25%", y: "-35%", color: "#ffffff" },
-  { name: "React 19", x: "35%", y: "-40%", color: "#61DAFB" },
-  { name: "Three.js / WebGL", x: "30%", y: "25%", color: "#00F0FF" },
-  { name: "TypeScript", x: "-40%", y: "25%", color: "#3178C6" },
-  { name: "AI LLM Agents", x: "-45%", y: "-10%", color: "#7000FF" },
-  { name: "TailwindCSS", x: "45%", y: "-5%", color: "#38BDF8" },
+const TECH = [
+  { name: "Next.js",      category: "Frontend",      level: 99 },
+  { name: "React 19",     category: "Frontend",      level: 99 },
+  { name: "TypeScript",   category: "Language",      level: 97 },
+  { name: "Three.js",     category: "WebGL",         level: 90 },
+  { name: "GSAP",         category: "Animation",     level: 93 },
+  { name: "Framer Motion",category: "Animation",     level: 96 },
+  { name: "Python",       category: "AI/Backend",    level: 94 },
+  { name: "LangChain",    category: "AI",            level: 88 },
+  { name: "GPT-4o",       category: "AI",            level: 92 },
+  { name: "PostgreSQL",   category: "Database",      level: 91 },
+  { name: "Supabase",     category: "Backend",       level: 93 },
+  { name: "Redis",        category: "Cache",         level: 87 },
+  { name: "Docker",       category: "DevOps",        level: 89 },
+  { name: "Vercel",       category: "Deployment",    level: 98 },
+  { name: "Stripe",       category: "Payments",      level: 95 },
+  { name: "React Native", category: "Mobile",        level: 91 },
 ];
+
+const CATEGORIES = ["Frontend", "AI", "Backend", "DevOps", "Mobile"];
+const CATEGORY_COLORS: Record<string, string> = {
+  Frontend:   "var(--cyan)",
+  Language:   "var(--cyan)",
+  WebGL:      "#aa00ff",
+  Animation:  "#aa00ff",
+  "AI/Backend": "#0052ff",
+  AI:           "#0052ff",
+  Database:   "#0052ff",
+  Backend:    "#0052ff",
+  Cache:      "#0052ff",
+  DevOps:     "#00cc88",
+  Deployment: "#00cc88",
+  Payments:   "#ffaa00",
+  Mobile:     "#ff6600",
+};
 
 export default function TechStack() {
   return (
-    <section className="relative w-full ds-section overflow-hidden z-10 bg-[#0b0b0b] text-white border-t border-white/10">
+    <section id="tech" className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>
       <Wrapper>
-        <div className="flex flex-col items-center text-center">
-          <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading">
-            Modern Stack
-          </span>
-          <h2 className="ds-section-title text-white font-heading max-w-2xl mb-16">
-            Powered by bleeding-edge technology.
+        {/* Header */}
+        <div className="flex flex-col gap-4 mb-16 max-w-xl">
+          <p className="t-label" style={{ color: "var(--cyan)" }}>Our Stack</p>
+          <h2 className="t-section" style={{ color: "var(--text-primary)" }}>
+            Technologies we master.
           </h2>
+          <p className="t-body" style={{ color: "var(--text-tertiary)" }}>
+            We only work with best-in-class tools. No legacy stacks. No compromise.
+          </p>
+        </div>
 
-          {/* 3D Orbit Node Visual */}
-          <div className="relative w-full max-w-4xl h-[400px] flex items-center justify-center">
-            <div className="z-20 w-36 h-36 rounded-full bg-[#111] border border-[#00F0FF]/50 shadow-[0_0_40px_rgba(0,240,255,0.3)] flex flex-col items-center justify-center relative animate-float">
-              <div className="absolute inset-0 rounded-full border border-[#0066FF] animate-ping opacity-30" />
-              <span className="font-mono font-bold text-xs text-[#00F0FF] uppercase tracking-widest">WebAura</span>
-              <span className="font-heading font-bold text-xl text-white mt-1">Core Engine</span>
-            </div>
-
-            <div className="absolute inset-0 border border-white/10 rounded-full scale-75 opacity-40" />
-            <div className="absolute inset-0 border border-white/5 rounded-full scale-100 opacity-40" />
-
-            {techList.map((t, i) => (
+        {/* Tech Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {TECH.map((t, i) => {
+            const color = CATEGORY_COLORS[t.category] || "var(--cyan)";
+            return (
               <motion.div
                 key={t.name}
-                initial={{ opacity: 0, scale: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-                className="absolute z-10 animate-float"
-                style={{ 
-                  left: `calc(50% + ${t.x})`, 
-                  top: `calc(50% + ${t.y})`,
-                  animationDelay: `${i * 0.4}s`
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                className="group flex flex-col gap-4 rounded-[var(--r-lg)] p-6"
+                style={{
+                  background:  "var(--surface-card)",
+                  border:      "1px solid var(--border)",
+                  transition:  "border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease",
                 }}
+                whileHover={{
+                  borderColor: color,
+                  boxShadow:   `0 0 30px ${color}22`,
+                  y: -4,
+                } as any}
               >
-                <div className="bg-[#111]/90 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/15 shadow-xl flex items-center gap-2 hover:scale-110 hover:border-[#00F0FF] transition-all">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
-                  <span className="text-xs font-mono font-bold text-slate-200">{t.name}</span>
+                {/* Category badge */}
+                <div className="flex items-center justify-between">
+                  <span className="t-label text-[8px] px-2 py-0.5 rounded-full"
+                    style={{ background: `${color}18`, color, border: `1px solid ${color}33` }}>
+                    {t.category}
+                  </span>
+                  <span className="t-mono text-[10px]" style={{ color: "var(--text-muted)" }}>{t.level}%</span>
+                </div>
+
+                {/* Name */}
+                <p className="text-base font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-heading)" }}>
+                  {t.name}
+                </p>
+
+                {/* Proficiency bar */}
+                <div className="h-[2px] w-full rounded-full overflow-hidden" style={{ background: "var(--border)" }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: color, boxShadow: `0 0 8px ${color}` }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${t.level}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.9, delay: i * 0.04 + 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  />
                 </div>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </Wrapper>
     </section>

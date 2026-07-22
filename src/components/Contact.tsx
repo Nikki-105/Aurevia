@@ -1,145 +1,179 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshTransmissionMaterial } from "@react-three/drei";
 import Wrapper from "./Wrapper";
 import Button from "./Button";
 import MagneticButton from "./MagneticButton";
 
-function GlowingCrystal() {
-  const mesh = useRef<any>(null);
-  useFrame((state) => {
-    if (mesh.current) {
-      mesh.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-      mesh.current.rotation.y = state.clock.getElapsedTime() * 0.3;
-    }
-  });
-
-  return (
-    <Float floatIntensity={2} rotationIntensity={2} speed={2}>
-      <mesh ref={mesh} scale={1.3}>
-        <octahedronGeometry args={[1, 0]} />
-        <MeshTransmissionMaterial
-          backside
-          thickness={0.8}
-          roughness={0.05}
-          transmission={1}
-          ior={1.6}
-          chromaticAberration={0.2}
-          color="#00F0FF"
-        />
-      </mesh>
-    </Float>
-  );
-}
+const SERVICES_OPTS = [
+  "Premium Web Development", "AI Automation", "SaaS Development",
+  "Mobile Application", "UI/UX Design", "Branding", "SEO / Technical SEO",
+  "AI Chatbot / Voice Agent", "CRM / ERP", "Custom Software",
+];
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const toggle = (s: string) =>
+    setSelected((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSent(true);
   };
 
   return (
-    <section id="contact" className="relative w-full ds-section bg-[#050505] text-white z-10 border-t border-white/10">
+    <section id="contact" className="section-pad" style={{ borderBottom: "1px solid var(--border)" }}>
       <Wrapper>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          
-          {/* Left Info Panel */}
-          <div className="flex flex-col">
-            <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading flex items-center gap-4">
-              <div className="w-8 h-[1px] bg-[#00F0FF]" />
-              Start A Project
-            </span>
-            <h2 className="ds-section-title text-white font-heading ds-mb-heading">
-              Let's engineer your next masterpiece.
-            </h2>
-            <p className="ds-body text-slate-400 max-w-md ds-mb-button">
-              We selectively partner with ambitious enterprises ready to dominate their market through custom 3D WebGL platforms and AI automation.
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
 
-            <div className="flex flex-col gap-6">
-              <div>
-                <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-1">Direct Inquiries</span>
-                <a href="mailto:hello@webaura.studio" className="text-xl font-bold font-heading text-white hover:text-[#00F0FF] transition-colors">
-                  hello@webaura.studio
-                </a>
-              </div>
-
-              <div>
-                <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block mb-1">HQ Location</span>
-                <span className="text-xl font-bold font-heading text-white">San Francisco, CA</span>
-              </div>
-
-              <div className="flex gap-4 mt-4">
-                <a href="https://wa.me/" target="_blank" rel="noreferrer" className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300 hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors">
-                  WhatsApp Direct →
-                </a>
-                <a href="#calendar" className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300 hover:text-[#00F0FF] hover:border-[#00F0FF] transition-colors">
-                  Book 15-min Call →
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Floating Glass Form & 3D Crystal */}
-          <div className="relative">
-            {/* 3D Crystal Canvas Behind Form */}
-            <div className="absolute -top-24 -right-12 w-64 h-64 pointer-events-none opacity-60">
-              <Canvas camera={{ position: [0, 0, 3] }}>
-                <ambientLight intensity={1} />
-                <directionalLight position={[5, 5, 5]} intensity={2} />
-                <GlowingCrystal />
-              </Canvas>
+          {/* ─── Left Info ─── */}
+          <div className="lg:col-span-5 flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
+              <p className="t-label" style={{ color: "var(--cyan)" }}>Get in Touch</p>
+              <h2 className="t-section" style={{ color: "var(--text-primary)" }}>
+                Let's engineer something unforgettable.
+              </h2>
+              <p className="t-body leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
+                Tell us about your project. We review every submission personally and reply within 2 business hours.
+              </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="glow-card p-10 flex flex-col gap-6 relative z-10">
-              {submitted ? (
-                <div className="py-16 text-center">
-                  <span className="text-4xl mb-4 block">🚀</span>
-                  <h3 className="text-2xl font-bold text-white font-heading mb-2">Inquiry Received</h3>
-                  <p className="text-sm text-slate-400">Our lead architect will review your project specs and respond within 2 hours.</p>
+            {/* Availability badge */}
+            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full self-start"
+              style={{ background: "rgba(0,229,255,0.07)", border: "1px solid rgba(0,229,255,0.2)" }}>
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--cyan)", boxShadow: "0 0 6px var(--cyan)" }} />
+              <span className="t-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+                Accepting new projects — <span style={{ color: "var(--cyan)" }}>Q3 2025</span>
+              </span>
+            </div>
+
+            {/* Contact details */}
+            <div className="flex flex-col gap-5 pt-4" style={{ borderTop: "1px solid var(--border)" }}>
+              {[
+                { label: "Email", value: "hello@webaura.studio" },
+                { label: "Response Time", value: "Within 2 business hours" },
+                { label: "Timezone", value: "Available globally" },
+              ].map((d) => (
+                <div key={d.label} className="flex flex-col gap-1">
+                  <span className="t-label" style={{ color: "var(--text-muted)" }}>{d.label}</span>
+                  <span className="t-body font-medium" style={{ color: "var(--text-secondary)" }}>{d.value}</span>
                 </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-mono text-slate-400 uppercase tracking-wider">Your Name</label>
-                      <input type="text" required placeholder="John Doe" className="ds-input" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-mono text-slate-400 uppercase tracking-wider">Work Email</label>
-                      <input type="email" required placeholder="john@company.com" className="ds-input" />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-slate-400 uppercase tracking-wider">Estimated Budget</label>
-                    <select className="ds-input appearance-none bg-[#111] cursor-pointer">
-                      <option>$25,000 - $50,000</option>
-                      <option>$50,000 - $100,000</option>
-                      <option>$100,000+</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-slate-400 uppercase tracking-wider">Project Details</label>
-                    <textarea rows={4} required placeholder="Tell us about your goals..." className="ds-input py-4 resize-none h-auto" />
-                  </div>
-
-                  <MagneticButton className="w-full">
-                    <Button type="submit" variant="primary" className="w-full bg-gradient-to-r from-[#0066FF] to-[#00F0FF] text-black font-bold">
-                      Transmit Project Inquiry
-                    </Button>
-                  </MagneticButton>
-                </>
-              )}
-            </form>
+              ))}
+            </div>
           </div>
 
+          {/* ─── Right Form ─── */}
+          <div className="lg:col-span-7">
+            {sent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center text-center gap-6 h-full min-h-[400px]"
+              >
+                <div className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{ background: "var(--cyan-dim)", border: "1px solid rgba(0,229,255,0.4)" }}>
+                  <svg className="w-7 h-7" style={{ color: "var(--cyan)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="t-subtitle font-bold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-heading)" }}>Message Received</h3>
+                  <p className="t-body" style={{ color: "var(--text-tertiary)" }}>We'll be in touch within 2 business hours.</p>
+                </div>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                {/* Row 1 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="t-label" style={{ color: "var(--text-muted)" }}>Full Name *</label>
+                    <input
+                      required
+                      className="input"
+                      placeholder="Marcus Theil"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="t-label" style={{ color: "var(--text-muted)" }}>Email Address *</label>
+                    <input
+                      required
+                      type="email"
+                      className="input"
+                      placeholder="marcus@company.com"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                {/* Company */}
+                <div className="flex flex-col gap-2">
+                  <label className="t-label" style={{ color: "var(--text-muted)" }}>Company / Project Name</label>
+                  <input
+                    className="input"
+                    placeholder="Acme Corp"
+                    value={form.company}
+                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                  />
+                </div>
+
+                {/* Services */}
+                <div className="flex flex-col gap-3">
+                  <label className="t-label" style={{ color: "var(--text-muted)" }}>Services Needed</label>
+                  <div className="flex flex-wrap gap-2">
+                    {SERVICES_OPTS.map((s) => {
+                      const active = selected.includes(s);
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => toggle(s)}
+                          className="px-3.5 py-2 rounded-full t-label text-[9px] transition-all"
+                          style={{
+                            background:   active ? "var(--cyan-dim)" : "rgba(255,255,255,0.04)",
+                            border:       `1px solid ${active ? "rgba(0,229,255,0.5)" : "var(--border)"}`,
+                            color:        active ? "var(--cyan)" : "var(--text-tertiary)",
+                          }}
+                        >
+                          {s}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="flex flex-col gap-2">
+                  <label className="t-label" style={{ color: "var(--text-muted)" }}>Project Details *</label>
+                  <textarea
+                    required
+                    rows={5}
+                    className="input"
+                    style={{ height: "auto", padding: "14px 20px", resize: "none" }}
+                    placeholder="Tell us about your project goals, timeline, and budget..."
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  />
+                </div>
+
+                {/* Submit */}
+                <MagneticButton>
+                  <Button variant="primary" type="submit" className="w-full justify-center">
+                    Send Message
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Button>
+                </MagneticButton>
+              </form>
+            )}
+          </div>
         </div>
       </Wrapper>
     </section>
