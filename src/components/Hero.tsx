@@ -2,16 +2,14 @@
 
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
+import ThreeWebGLHero from "./Three/ThreeWebGLHero";
 
 export default function Hero() {
   return (
     <section className="relative w-full min-h-screen flex items-center pt-24 pb-20 md:py-[120px] overflow-hidden">
       
-      {/* Three.js Canvas Placeholder per instructions */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* The actual Canvas would go here, absolute positioned so it never affects layout height */}
-        <div className="absolute top-1/4 right-0 w-[800px] h-[800px] bg-gradient-to-tr from-blue-500/10 to-purple-500/10 rounded-full blur-[120px]" />
-      </div>
+      {/* WebGL Experience */}
+      <ThreeWebGLHero />
 
       <Wrapper className="relative z-10 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
