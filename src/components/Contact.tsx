@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
-import Button from "./Button";
 import MagneticButton from "./MagneticButton";
 
 const SERVICES_OPTS = [
@@ -164,12 +163,12 @@ export default function Contact() {
 
                 {/* Submit */}
                 <MagneticButton>
-                  <Button variant="primary" type="submit" className="w-full justify-center">
+                  <button type="submit" className="btn btn-primary w-full justify-center">
                     Send Message
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                  </Button>
+                  </button>
                 </MagneticButton>
               </form>
             )}

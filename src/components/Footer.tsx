@@ -2,7 +2,6 @@
 
 import Wrapper from "./Wrapper";
 import MagneticButton from "./MagneticButton";
-import Button from "./Button";
 
 const LINKS = {
   Services: ["Web Development", "AI Automation", "SaaS Development", "Mobile Apps", "UI/UX Design", "Branding"],
@@ -48,12 +47,16 @@ export default function Footer() {
               </p>
             </div>
             <MagneticButton>
-              <Button variant="primary" href="#contact">
+              <a
+                href="#contact"
+                className="btn btn-primary"
+                onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+              >
                 Start Your Project
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </Button>
+              </a>
             </MagneticButton>
           </div>
         </Wrapper>

@@ -4,107 +4,138 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
 import MagneticButton from "./MagneticButton";
-import Wrapper from "./Wrapper";
 
-const LINKS = ["About", "Services", "Work", "Process", "Pricing", "Contact"];
+const LINKS = [
+  { label: "About",    id: "about"    },
+  { label: "Services", id: "services" },
+  { label: "Work",     id: "portfolio"},
+  { label: "Process",  id: "process"  },
+  { label: "Pricing",  id: "pricing"  },
+  { label: "Contact",  id: "contact"  },
+];
 
 export default function Navigation() {
   const { setCursorType } = useCursor();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 60);
+    const handler = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMobileOpen(false);
+  };
+
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center"
-      style={{ paddingTop: scrolled ? "12px" : "20px", transition: "padding 300ms ease" }}
-    >
-      <Wrapper className="px-0">
-        <nav
-          className="flex items-center justify-between h-[72px] px-8 transition-all"
-          style={{
-            background:    scrolled ? "rgba(8,8,12,0.85)" : "transparent",
-            backdropFilter: scrolled ? "blur(20px)" : "none",
-            border:        scrolled ? "1px solid var(--border)" : "1px solid transparent",
-            borderRadius:  scrolled ? "var(--r-full)" : "var(--r-xl)",
-            boxShadow:     scrolled ? "var(--shadow-md)" : "none",
-            transition:    "all 350ms cubic-bezier(0.16,1,0.3,1)",
-          }}
-        >
-          {/* Logo */}
-          <a
-            href="#hero"
-            className="text-[18px] font-black tracking-tight select-none"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}
-            onMouseEnter={() => setCursorType("pointer")}
-            onMouseLeave={() => setCursorType("default")}
-            onClick={(e) => { e.preventDefault(); document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" }); }}
+    <>
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{ padding: scrolled ? "10px 0" : "18px 0", transition: "padding 300ms ease" }}
+      >
+        <div className="container">
+          <div
+            className="flex items-center justify-between"
+            style={{
+              height: "72px",
+              padding: "0 28px",
+              borderRadius: scrolled ? "var(--r-full)" : "var(--r-xl)",
+              background: scrolled ? "rgba(6,6,10,0.88)" : "transparent",
+              backdropFilter: scrolled ? "blur(24px)" : "none",
+              border: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+              boxShadow: scrolled ? "var(--shadow-md)" : "none",
+              transition: "all 350ms cubic-bezier(0.16,1,0.3,1)",
+            }}
           >
-            WebAura<span style={{ color: "var(--cyan)" }}>.</span>
-          </a>
-
-          {/* Links */}
-          <div className="hidden md:flex items-center gap-9">
-            {LINKS.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="t-mono text-[11px] transition-colors"
-                style={{ color: "var(--text-tertiary)" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-                  setCursorType("pointer");
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
-                  setCursorType("default");
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <MagneticButton>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 h-[44px] px-6 rounded-full text-xs font-bold transition-all"
-              style={{
-                background: "var(--cyan)",
-                color: "#000",
-                boxShadow: "0 0 20px rgba(0,229,255,0.3)",
-                letterSpacing: "-0.01em",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 36px rgba(0,229,255,0.55)";
-                setCursorType("pointer");
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(0,229,255,0.3)";
-                setCursorType("default");
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-              }}
+            {/* ─── Logo ─── */}
+            <button
+              onClick={() => scrollTo("hero")}
+              className="text-[20px] font-black tracking-tight select-none flex-shrink-0"
+              style={{ fontFamily: "var(--font-serif)", color: "var(--text-primary)", background: "none", border: "none", cursor: "pointer" }}
+              onMouseEnter={() => setCursorType("pointer")}
+              onMouseLeave={() => setCursorType("default")}
             >
-              Start Project
-            </a>
-          </MagneticButton>
-        </nav>
-      </Wrapper>
-    </motion.header>
+              WebAura<span style={{ color: "var(--cyan)" }}>.</span>
+            </button>
+
+            {/* ─── Links (centered) ─── */}
+            <nav className="hidden md:flex items-center gap-8">
+              {LINKS.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className="t-mono text-[11px] transition-colors duration-200"
+                  style={{ color: "var(--text-tertiary)", background: "none", border: "none", cursor: "pointer" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                    setCursorType("pointer");
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-tertiary)";
+                    setCursorType("default");
+                  }}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* ─── CTA + Mobile toggle ─── */}
+            <div className="flex items-center gap-4">
+              <MagneticButton>
+                <button
+                  onClick={() => scrollTo("contact")}
+                  className="btn btn-primary hidden md:inline-flex"
+                  style={{ height: "44px", padding: "0 24px", fontSize: "13px" }}
+                  onMouseEnter={() => setCursorType("pointer")}
+                  onMouseLeave={() => setCursorType("default")}
+                >
+                  Start Project
+                </button>
+              </MagneticButton>
+
+              {/* Hamburger */}
+              <button
+                className="md:hidden flex flex-col gap-[5px] p-2"
+                onClick={() => setMobileOpen((v) => !v)}
+                style={{ background: "none", border: "none", cursor: "pointer" }}
+              >
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="block w-5 h-[1.5px] rounded-full transition-all"
+                    style={{ background: "var(--text-primary)" }}
+                  />
+                ))}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 glass flex flex-col items-center justify-center gap-6"
+          onClick={() => setMobileOpen(false)}>
+          {LINKS.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className="t-section font-bold"
+              style={{ color: "var(--text-primary)", background: "none", border: "none", cursor: "pointer" }}
+            >
+              {link.label}
+            </button>
+          ))}
+          <button onClick={() => scrollTo("contact")} className="btn btn-primary mt-4">Start Project</button>
+        </div>
+      )}
+    </>
   );
 }
