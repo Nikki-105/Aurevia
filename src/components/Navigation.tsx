@@ -46,8 +46,7 @@ export default function Navigation() {
               href={`#${item.toLowerCase()}`}
               className="text-xs font-mono font-medium text-slate-300 hover:text-[#00F0FF] transition-colors"
               onMouseEnter={() => {
-                setCursorType("text");
-                setCursorLabel("GOTO");
+                setCursorType("pointer");
               }}
               onMouseLeave={() => setCursorType("default")}
             >

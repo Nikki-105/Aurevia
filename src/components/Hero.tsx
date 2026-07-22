@@ -123,7 +123,7 @@ export default function Hero() {
                 <Button 
                   variant="primary"
                   className="bg-gradient-to-r from-[#0066FF] to-[#00F0FF] text-black font-bold h-[52px] px-8 shadow-[0_0_30px_rgba(0,240,255,0.4)]"
-                  onMouseEnter={() => { setCursorType("text"); setCursorLabel("EXPLORE"); }}
+                  onMouseEnter={() => { setCursorType("pointer"); }}
                   onMouseLeave={() => setCursorType("default")}
                 >
                   Start Your Project

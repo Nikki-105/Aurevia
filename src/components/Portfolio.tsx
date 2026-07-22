@@ -61,10 +61,11 @@ export default function Portfolio() {
               className="group relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 cursor-pointer"
               onClick={() => setSelectedProject(p)}
               onMouseEnter={() => {
-                setCursorType("text");
-                setCursorLabel("CASE STUDY");
+                setCursorType("pointer");
               }}
-              onMouseLeave={() => setCursorType("default")}
+              onMouseLeave={() => {
+                setCursorType("default");
+              }}
             >
               <img
                 src={p.image}

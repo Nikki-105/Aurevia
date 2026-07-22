@@ -20,24 +20,18 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Outer Neon Glow Circle */}
+      {/* Outer Precision Ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-[#00F0FF]/50 bg-[#0066FF]/10 backdrop-blur-[2px] flex items-center justify-center"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-[#00F0FF]/50 bg-[#0066FF]/10 backdrop-blur-[2px]"
         animate={{
-          x: mousePosition.x - (cursorType === "text" ? 36 : 16),
-          y: mousePosition.y - (cursorType === "text" ? 36 : 16),
-          width: cursorType === "text" ? 72 : 32,
-          height: cursorType === "text" ? 72 : 32,
-          scale: cursorType === "pointer" ? 1.5 : 1,
+          x: mousePosition.x - (cursorType === "pointer" ? 24 : 16),
+          y: mousePosition.y - (cursorType === "pointer" ? 24 : 16),
+          width: cursorType === "pointer" ? 48 : 32,
+          height: cursorType === "pointer" ? 48 : 32,
+          scale: cursorType === "pointer" ? 1.2 : 1,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 28, mass: 0.1 }}
-      >
-        {cursorLabel && (
-          <span className="text-[9px] font-bold tracking-widest text-[#00F0FF] uppercase">
-            {cursorLabel}
-          </span>
-        )}
-      </motion.div>
+      />
 
       {/* Inner Precision Dot */}
       <motion.div
