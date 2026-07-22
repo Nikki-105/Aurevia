@@ -3,70 +3,58 @@
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
 
-const technologies = [
-  { name: "React", x: "-20%", y: "-30%", delay: 0 },
-  { name: "Next.js", x: "40%", y: "-40%", delay: 0.2 },
-  { name: "WebGL", x: "30%", y: "20%", delay: 0.4 },
-  { name: "Three.js", x: "-40%", y: "30%", delay: 0.1 },
-  { name: "TypeScript", x: "-50%", y: "-10%", delay: 0.5 },
-  { name: "Tailwind", x: "50%", y: "0%", delay: 0.3 },
+const techList = [
+  { name: "Next.js 15", x: "-25%", y: "-35%", color: "#ffffff" },
+  { name: "React 19", x: "35%", y: "-40%", color: "#61DAFB" },
+  { name: "Three.js / WebGL", x: "30%", y: "25%", color: "#00F0FF" },
+  { name: "TypeScript", x: "-40%", y: "25%", color: "#3178C6" },
+  { name: "AI LLM Agents", x: "-45%", y: "-10%", color: "#7000FF" },
+  { name: "TailwindCSS", x: "45%", y: "-5%", color: "#38BDF8" },
 ];
 
 export default function TechStack() {
   return (
-    <section className="relative w-full ds-section overflow-hidden z-10 bg-[var(--color-bg-secondary)]">
+    <section className="relative w-full ds-section overflow-hidden z-10 bg-[#0b0b0b] text-white border-t border-white/10">
       <Wrapper>
         <div className="flex flex-col items-center text-center">
-          
-          <span className="ds-small tracking-[0.1em] uppercase text-[var(--color-text-tertiary)] ds-mb-heading">
-            The Stack
+          <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading">
+            Modern Stack
           </span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="ds-section-title text-[var(--color-text-primary)] font-heading max-w-[800px] mb-[96px]"
-          >
+          <h2 className="ds-section-title text-white font-heading max-w-2xl mb-16">
             Powered by bleeding-edge technology.
-          </motion.h2>
+          </h2>
 
-          {/* Floating Nodes System */}
-          <div className="relative w-full max-w-[800px] h-[400px] flex items-center justify-center">
-            
-            {/* Center Node */}
-            <div className="z-20 w-[128px] h-[128px] rounded-full bg-[var(--color-bg-elevated)] border border-[var(--color-border)] shadow-[0_8px_32px_rgba(0,0,0,0.04)] flex items-center justify-center relative animate-float">
-              <div className="absolute inset-0 rounded-full border border-[var(--color-accent)] animate-ping opacity-20" />
-              <span className="font-heading font-[800] text-[24px] text-[var(--color-text-primary)]">Core</span>
+          {/* 3D Orbit Node Visual */}
+          <div className="relative w-full max-w-4xl h-[400px] flex items-center justify-center">
+            <div className="z-20 w-36 h-36 rounded-full bg-[#111] border border-[#00F0FF]/50 shadow-[0_0_40px_rgba(0,240,255,0.3)] flex flex-col items-center justify-center relative animate-float">
+              <div className="absolute inset-0 rounded-full border border-[#0066FF] animate-ping opacity-30" />
+              <span className="font-mono font-bold text-xs text-[#00F0FF] uppercase tracking-widest">WebAura</span>
+              <span className="font-heading font-bold text-xl text-white mt-1">Core Engine</span>
             </div>
 
-            {/* Orbiting Lines */}
-            <div className="absolute inset-0 border border-[var(--color-border)] rounded-full scale-75 opacity-50" />
-            <div className="absolute inset-0 border border-[var(--color-border)] rounded-full scale-100 opacity-50" />
-            
-            {/* Tech Nodes */}
-            {technologies.map((tech, i) => (
+            <div className="absolute inset-0 border border-white/10 rounded-full scale-75 opacity-40" />
+            <div className="absolute inset-0 border border-white/5 rounded-full scale-100 opacity-40" />
+
+            {techList.map((t, i) => (
               <motion.div
-                key={tech.name}
+                key={t.name}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: tech.delay, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
                 className="absolute z-10 animate-float"
                 style={{ 
-                  left: `calc(50% + ${tech.x})`, 
-                  top: `calc(50% + ${tech.y})`,
-                  animationDelay: `${tech.delay}s`
+                  left: `calc(50% + ${t.x})`, 
+                  top: `calc(50% + ${t.y})`,
+                  animationDelay: `${i * 0.4}s`
                 }}
               >
-                <div className="bg-[var(--color-bg-elevated)] px-[24px] py-[12px] rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-[var(--color-border)] cursor-pointer hover:scale-[1.1] hover:border-[var(--color-border-hover)] transition-all duration-300 group">
-                  <span className="text-[14px] font-[600] tracking-[-0.01em] text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)]">
-                    {tech.name}
-                  </span>
+                <div className="bg-[#111]/90 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/15 shadow-xl flex items-center gap-2 hover:scale-110 hover:border-[#00F0FF] transition-all">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
+                  <span className="text-xs font-mono font-bold text-slate-200">{t.name}</span>
                 </div>
               </motion.div>
             ))}
-
           </div>
         </div>
       </Wrapper>

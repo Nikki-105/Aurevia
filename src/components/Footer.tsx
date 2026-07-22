@@ -1,62 +1,101 @@
 "use client";
 
-import Wrapper from "./Wrapper";
+import { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import Wrapper from "./Wrapper";
+
+function ConstellationStars() {
+  const pointsRef = useRef<THREE.Points>(null);
+  const count = 1000;
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 20;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    }
+    return pos;
+  }, [count]);
+
+  useFrame((state) => {
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
+    }
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial size={0.025} color="#00F0FF" transparent opacity={0.6} />
+    </points>
+  );
+}
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-slate-900 text-white pt-[128px] pb-[48px] z-20 overflow-hidden">
+    <footer className="relative w-full bg-[#050505] text-white pt-32 pb-12 z-20 overflow-hidden border-t border-white/10">
       
-      {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[960px] h-[400px] bg-[var(--color-accent)] blur-[150px] opacity-20 rounded-[100%] pointer-events-none" />
+      {/* 3D Galaxy Constellation Canvas Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <Canvas camera={{ position: [0, 0, 5] }}>
+          <ConstellationStars />
+        </Canvas>
+      </div>
 
       <Wrapper className="relative z-10 flex flex-col">
         
         {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[64px] mb-[128px]">
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           <div className="flex flex-col lg:col-span-2">
-            <h3 className="text-[24px] font-[800] tracking-[-0.02em] font-heading mb-[24px]">Aurevia.</h3>
-            <p className="text-slate-400 max-w-[320px] leading-[1.6] text-[16px]">
-              An elite digital agency crafting timeless, high-performance web experiences for brands that refuse to blend in.
+            <h3 className="text-3xl font-extrabold font-heading text-white mb-4">WebAura<span className="text-[#00F0FF]">.</span></h3>
+            <p className="text-slate-400 max-w-sm text-sm leading-relaxed mb-6">
+              Engineering Digital Experiences That Convert. An Awwwards-grade digital studio building bespoke Next.js 15, WebGL 3D, and AI platforms.
             </p>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#00F0FF] animate-pulse" />
+              <span className="text-xs font-mono text-slate-300">Available for Q3/Q4 Enterprise Partnerships</span>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-[16px]">
-            <span className="text-[13px] font-[700] tracking-[0.05em] uppercase text-slate-500 mb-[8px]">Social</span>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Twitter</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">LinkedIn</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Instagram</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Awwwards</a>
+          <div className="flex flex-col gap-3">
+            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">Navigation</span>
+            <a href="#hero" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Home</a>
+            <a href="#about" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">About Studio</a>
+            <a href="#services" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">16 Capabilities</a>
+            <a href="#portfolio" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Case Studies</a>
+            <a href="#process" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Roadmap</a>
           </div>
 
-          <div className="flex flex-col gap-[16px]">
-            <span className="text-[13px] font-[700] tracking-[0.05em] uppercase text-slate-500 mb-[8px]">Studio</span>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">About Us</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Careers</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Privacy Policy</a>
-            <a href="#" className="text-[15px] font-[500] text-slate-300 hover:text-white transition-colors w-fit">Terms of Service</a>
+          <div className="flex flex-col gap-3">
+            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-2">Connect</span>
+            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Twitter / X</a>
+            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">LinkedIn</a>
+            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">GitHub</a>
+            <a href="#" className="text-slate-300 hover:text-[#00F0FF] transition-colors text-sm">Awwwards Profile</a>
           </div>
-
         </div>
 
-        {/* Massive Brand Statement */}
-        <div className="w-full border-b border-white/10 pb-[64px] mb-[32px] text-center flex flex-col items-center justify-center">
+        {/* Massive 200px Glowing Typography Statement */}
+        <div className="w-full border-b border-white/10 pb-12 mb-8 text-center flex items-center justify-center">
           <motion.h1 
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(48px,12vw,240px)] font-[800] tracking-[-0.04em] font-heading leading-[0.8] bg-clip-text text-transparent bg-gradient-to-b from-white to-white/20"
+            transition={{ duration: 1 }}
+            className="text-[clamp(48px,14vw,220px)] font-extrabold font-heading leading-none tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/10 drop-shadow-[0_0_50px_rgba(0,240,255,0.2)]"
           >
-            AUREVIA
+            WEBAURA
           </motion.h1>
         </div>
 
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-[16px] text-slate-500 text-[14px]">
-          <span>© {new Date().getFullYear()} Aurevia Studio. All rights reserved.</span>
-          <span>Crafted with precision in San Francisco.</span>
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-xs font-mono">
+          <span>© {new Date().getFullYear()} WebAura Studio. All rights reserved.</span>
+          <span>100/100 Lighthouse • Handcrafted in San Francisco</span>
         </div>
 
       </Wrapper>

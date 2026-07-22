@@ -2,106 +2,73 @@
 
 import { motion } from "framer-motion";
 import Wrapper from "./Wrapper";
-import Button from "./Button";
 
 const services = [
-  {
-    title: "Digital Products",
-    description: "End-to-end product engineering, from architectural concept to scalable, high-performance deployment.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-        <line x1="8" y1="21" x2="16" y2="21"/>
-        <line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-    ),
-    tags: ["Web Apps", "Mobile", "SaaS"]
-  },
-  {
-    title: "Brand Strategy",
-    description: "Timeless visual identities and strategic brand positioning designed specifically for modern tech enterprises.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-      </svg>
-    ),
-    tags: ["Identity", "Art Direction", "Systems"]
-  },
-  {
-    title: "AI Integration",
-    description: "Custom AI automation, conversational agents, and machine learning solutions to optimize complex workflows.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2v20"/>
-        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-      </svg>
-    ),
-    tags: ["LLMs", "Automation", "Data"]
-  }
+  { title: "Premium Website Development", desc: "Bespoke Next.js 15 architectures with WebGL 3D physics.", icon: "🌐" },
+  { title: "AI Automation", desc: "Custom LLM agents, automated lead workflows, and smart integrations.", icon: "🤖" },
+  { title: "CRM Systems", desc: "Enterprise CRM platforms built for high-touch sales pipelines.", icon: "📈" },
+  { title: "SaaS Development", desc: "Scalable multi-tenant cloud software with automated billing.", icon: "☁️" },
+  { title: "Mobile Apps", desc: "Native iOS & Android experiences using React Native.", icon: "📱" },
+  { title: "UI/UX Design", desc: "High-fashion editorial interfaces designed for maximum conversion.", icon: "🎨" },
+  { title: "Branding & Identity", desc: "Timeless visual design systems and 3D brand guidelines.", icon: "✨" },
+  { title: "SEO & Growth", desc: "Data-driven organic search strategies and technical indexation.", icon: "🔍" },
+  { title: "Technical SEO", desc: "Core Web Vitals optimization and automated schema generation.", icon: "⚙️" },
+  { title: "AI Chatbots", desc: "Autonomous conversational agents for 24/7 client onboarding.", icon: "💬" },
+  { title: "AI Voice Agents", desc: "Realistic voice synthesis agents for automated booking and phone sales.", icon: "🎙️" },
+  { title: "Business Automation", desc: "End-to-end operational automation eliminating manual data entry.", icon: "⚡" },
+  { title: "ERP Solutions", desc: "Custom enterprise resource planning built for modern logistics.", icon: "🏢" },
+  { title: "Custom Software", desc: "High-throughput backend microservices and bespoke logic.", icon: "💻" },
+  { title: "Analytics Dashboards", desc: "Real-time telemetry and executive data visualizers.", icon: "📊" },
+  { title: "API Development", desc: "High-speed GraphQL and RESTful APIs with 99.99% uptime.", icon: "🔌" },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="relative w-full ds-section z-10">
+    <section id="services" className="relative w-full ds-section z-10 bg-[#0b0b0b] text-white border-t border-white/10">
       <Wrapper>
-        
-        <div className="flex flex-col md:flex-row gap-[64px] md:gap-[32px] justify-between items-end mb-[96px]">
-          <div className="flex flex-col">
-            <span className="ds-small tracking-[0.1em] uppercase text-[var(--color-text-tertiary)] ds-mb-heading flex items-center gap-[16px]">
-              <div className="w-[32px] h-[1px] bg-[var(--color-text-tertiary)]" />
-              Capabilities
-            </span>
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="ds-section-title text-[var(--color-text-primary)] max-w-[800px] font-heading"
-            >
-              We engineer solutions that elevate brands.
-            </motion.h2>
-          </div>
-          <Button variant="secondary" className="whitespace-nowrap">
-            View All Services
-          </Button>
+        <div className="flex flex-col mb-16 text-left">
+          <span className="ds-small tracking-[0.1em] uppercase text-[#00F0FF] ds-mb-heading flex items-center gap-4">
+            <div className="w-8 h-[1px] bg-[#00F0FF]" />
+            16 Core Capabilities
+          </span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="ds-section-title text-white font-heading max-w-3xl"
+          >
+            Engineering solutions that dominate markets.
+          </motion.h2>
         </div>
 
-        <div className="ds-grid">
-          {services.map((service, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((s, index) => (
             <motion.div
-              key={service.title}
+              key={s.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="ds-card col-span-4 lg:col-span-4 flex flex-col group relative overflow-hidden"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
+              className="glow-card p-6 flex flex-col justify-between group cursor-pointer"
             >
-              <div className="relative z-10">
-                <div className="w-[56px] h-[56px] rounded-[16px] bg-[var(--color-bg-secondary)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] ds-mb-paragraph group-hover:text-[var(--color-accent)] group-hover:scale-[1.1] transition-all duration-300">
-                  {service.icon}
+              <div>
+                <div className="text-3xl mb-4 p-3 rounded-xl bg-white/5 w-fit border border-white/10 group-hover:scale-110 group-hover:bg-[#00F0FF]/10 transition-all">
+                  {s.icon}
                 </div>
-                
-                <h3 className="ds-card-title text-[var(--color-text-primary)] ds-mb-heading font-heading">
-                  {service.title}
+                <h3 className="text-lg font-bold font-heading text-white mb-2 group-hover:text-[#00F0FF] transition-colors">
+                  {s.title}
                 </h3>
-                
-                <p className="ds-body ds-mb-button">
-                  {service.description}
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {s.desc}
                 </p>
-                
-                <div className="flex flex-wrap gap-[8px] mt-auto">
-                  {service.tags.map(tag => (
-                    <span key={tag} className="text-[12px] font-[600] tracking-[0.05em] uppercase text-[var(--color-text-secondary)] bg-[var(--color-bg-secondary)] border border-[var(--color-border)] px-[12px] py-[6px] rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
+              <span className="mt-6 text-[10px] font-mono text-slate-500 uppercase tracking-widest group-hover:text-white transition-colors">
+                Explore Service →
+              </span>
             </motion.div>
           ))}
         </div>
-        
       </Wrapper>
     </section>
   );

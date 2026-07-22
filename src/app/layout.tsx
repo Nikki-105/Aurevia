@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
 import AmbientBackground from "@/components/AmbientBackground";
+import CommandPalette from "@/components/CommandPalette";
+import AIChatbot from "@/components/AIChatbot";
+import FloatingDock from "@/components/FloatingDock";
 
 import { CursorProvider } from "@/context/CursorContext";
 
@@ -15,9 +18,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const geistSans = Geist({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -29,20 +32,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Aurevia Studio",
-    template: "%s | Aurevia Studio",
+    default: "WebAura Studio | Engineering Digital Experiences That Convert",
+    template: "%s | WebAura Studio",
   },
   description:
-    "Engineering Digital Experiences That Convert. Premium websites, AI automation, SaaS, branding, and enterprise-grade digital solutions.",
+    "WebAura is an elite digital engineering agency. Custom websites, WebGL experiences, AI Automation, SaaS, and Enterprise software solutions.",
   keywords: [
+    "WebAura",
     "Digital Agency",
-    "Next.js",
-    "Web Development",
-    "UI UX",
+    "Next.js 15",
+    "WebGL",
+    "Three.js",
     "AI Automation",
-    "Branding",
-    "SEO",
     "SaaS Development",
+    "UI UX Design",
+    "Enterprise Software",
   ],
 };
 
@@ -55,14 +59,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] antialiased overflow-x-hidden">
+      <body className="min-h-screen bg-[#050505] text-white antialiased overflow-x-hidden">
         <AmbientBackground />
         <CursorProvider>
           <SmoothScroll>
             <CustomCursor />
             <Navigation />
+            <CommandPalette />
+            <AIChatbot />
+            <FloatingDock />
 
             <main className="relative flex min-h-screen flex-col">
               {children}
