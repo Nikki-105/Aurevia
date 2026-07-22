@@ -59,7 +59,7 @@ export default function Services() {
                 <h3 className="text-lg font-bold font-heading text-white mb-2 group-hover:text-[#00F0FF] transition-colors">
                   {s.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-300 leading-relaxed">
                   {s.desc}
                 </p>
               </div>

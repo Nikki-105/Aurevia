@@ -13,10 +13,10 @@ interface WrapperProps {
   as?: React.ElementType;
 }
 
-export default function Wrapper({ children, className, as: Component = "div" }: WrapperProps) {
+export default function Wrapper({ children, className }: WrapperProps) {
   return (
     <div className={cn("w-full max-w-[1440px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[40px]", className)}>
-      <div className="w-full max-w-[1280px] mx-auto">
+      <div className="w-full max-w-[1320px] mx-auto">
         {children}
       </div>
     </div>
