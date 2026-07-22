@@ -2,29 +2,48 @@ import type { Metadata } from "next";
 import { Inter, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Components to be implemented in Phase 2
-import Wrapper from "@/components/Wrapper";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import Navigation from "@/components/Navigation";
+import AmbientBackground from "@/components/AmbientBackground";
+
+import { CursorProvider } from "@/context/CursorContext";
 
 const inter = Inter({
-  variable: "--font-inter",
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
   subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Aurevia Studio — Engineering Digital Experiences That Convert.",
-  description: "A flagship digital agency crafting timeless visual languages and enterprise trust.",
+  title: {
+    default: "Aurevia Studio",
+    template: "%s | Aurevia Studio",
+  },
+  description:
+    "Engineering Digital Experiences That Convert. Premium websites, AI automation, SaaS, branding, and enterprise-grade digital solutions.",
+  keywords: [
+    "Digital Agency",
+    "Next.js",
+    "Web Development",
+    "UI UX",
+    "AI Automation",
+    "Branding",
+    "SEO",
+    "SaaS Development",
+  ],
 };
 
 export default function RootLayout({
@@ -35,14 +54,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
-        <SmoothScroll>
-          <CustomCursor />
-          {/* <Navigation /> - Will be added later */}
-          <main className="flex-1 flex flex-col">{children}</main>
-        </SmoothScroll>
+      <body className="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] antialiased overflow-x-hidden">
+        <AmbientBackground />
+        <CursorProvider>
+          <SmoothScroll>
+            <CustomCursor />
+            <Navigation />
+
+            <main className="relative flex min-h-screen flex-col">
+              {children}
+            </main>
+          </SmoothScroll>
+        </CursorProvider>
       </body>
     </html>
   );
