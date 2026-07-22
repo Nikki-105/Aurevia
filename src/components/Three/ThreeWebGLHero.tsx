@@ -1,44 +1,41 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, MeshDistortMaterial, Sphere, Float } from "@react-three/drei";
+import { Environment, Icosahedron, Float } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
-function AbstractShape() {
+function MinimalWireframe() {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
-      // Pointer responsiveness (normalized coordinates -1 to +1)
-      const targetRotationX = (state.pointer.y * Math.PI) / 8;
-      const targetRotationY = (state.pointer.x * Math.PI) / 8;
+      // Very slow, delicate rotation
+      meshRef.current.rotation.x += delta * 0.05;
+      meshRef.current.rotation.y += delta * 0.08;
       
-      // Smooth interpolation
-      meshRef.current.rotation.x += (targetRotationX - meshRef.current.rotation.x) * 0.05;
-      meshRef.current.rotation.y += (targetRotationY - meshRef.current.rotation.y) * 0.05;
+      // Pointer responsiveness (subtle)
+      const targetRotationX = (state.pointer.y * Math.PI) / 12;
+      const targetRotationY = (state.pointer.x * Math.PI) / 12;
+      meshRef.current.rotation.x += (targetRotationX - meshRef.current.rotation.x) * 0.02;
+      meshRef.current.rotation.y += (targetRotationY - meshRef.current.rotation.y) * 0.02;
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <Sphere
+    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+      <Icosahedron
         ref={meshRef}
-        args={[2, 64, 64]}
-        position={[2, 0, -2]} // Positioned to right and slightly back
+        args={[2, 1]}
+        position={[2, 0, -2]}
       >
-        <MeshDistortMaterial
-          color="#ffffff"
-          attach="material"
-          distort={0.4}
-          speed={1.5}
-          roughness={0.1}
-          metalness={0.8}
-          clearcoat={1}
-          clearcoatRoughness={0.1}
-          envMapIntensity={1.5}
+        <meshBasicMaterial 
+          color="#000000" 
+          wireframe={true} 
+          transparent={true} 
+          opacity={0.08} // Extremely faint
         />
-      </Sphere>
+      </Icosahedron>
     </Float>
   );
 }
@@ -51,15 +48,7 @@ export default function ThreeWebGLHero() {
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         dpr={[1, 2]}
       >
-        <ambientLight intensity={0.5} />
-        {/* Subtle gradients from lighting: blue and purple */}
-        <directionalLight position={[10, 10, 5]} intensity={1.5} color="#e0f2fe" /> 
-        <directionalLight position={[-10, -10, -5]} intensity={1} color="#f3e8ff" /> 
-        <directionalLight position={[0, 0, 10]} intensity={0.5} color="#ffffff" />
-        
-        <AbstractShape />
-        
-        <Environment preset="city" />
+        <MinimalWireframe />
       </Canvas>
     </div>
   );
